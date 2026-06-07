@@ -32,8 +32,8 @@
                 <div class="social-media">
                     <p>Наши соцсети</p>
                     <a href="#">
-                        <img src="vk.png">
-                        <img src="max.png">
+                        <img src="img/vk.svg">
+                        <img src="img/telegram.svg">
                     </a>
                 </div>
             </ul>
