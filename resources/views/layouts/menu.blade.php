@@ -15,8 +15,8 @@
                 <li><a href="/catalog#4">Ударные</a></li>
             </ul>
         </div>
-        <a href="/stocks" class="navigate-item"><span class="navigate-text">Акции</span></a>
-        <a href="/about-us" class="navigate-item"><span class="navigate-text">О нас</span></a>
+        <a href="/news" class="navigate-item"><span class="navigate-text">Новости и Акции</span></a>
+        <a href="/about" class="navigate-item"><span class="navigate-text">О нас</span></a>
         <a href="/bascet" class="bascet"><img src="img/bascet.svg" ></a>
     </nav>
 </header>
