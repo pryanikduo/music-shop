@@ -1,32 +1,63 @@
 <?php
 
+/**
+ * Created by Reliese Model.
+ */
+
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Database\Factories\UserFactory;
-use Illuminate\Database\Eloquent\Attributes\Fillable;
-use Illuminate\Database\Eloquent\Attributes\Hidden;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['name', 'email', 'password'])]
-#[Hidden(['password', 'remember_token'])]
-class User extends Authenticatable
+/**
+ * Class User
+ * 
+ * @property int $user_id
+ * @property string $name
+ * @property string $email
+ * @property string $password
+ * @property string $role
+ * @property string|null $remember_token
+ * @property Carbon|null $created_at
+ * @property Carbon|null $updated_at
+ * 
+ * @property Collection|CartItem[] $cart_items
+ * @property Collection|Order[] $orders
+ * @property Collection|SupportTicket[] $support_tickets
+ *
+ * @package App\Models
+ */
+class User extends Model
 {
-    /** @use HasFactory<UserFactory> */
-    use HasFactory, Notifiable;
+	protected $table = 'users';
+	protected $primaryKey = 'user_id';
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-        ];
-    }
+	protected $hidden = [
+		'password',
+		'remember_token'
+	];
+
+	protected $fillable = [
+		'name',
+		'email',
+		'password',
+		'role',
+		'remember_token'
+	];
+
+	public function cart_items()
+	{
+		return $this->hasMany(CartItem::class);
+	}
+
+	public function orders()
+	{
+		return $this->hasMany(Order::class);
+	}
+
+	public function support_tickets()
+	{
+		return $this->hasMany(SupportTicket::class);
+	}
 }
