@@ -1,63 +1,55 @@
 <?php
 
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
-use Carbon\Carbon;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
-/**
- * Class User
- * 
- * @property int $user_id
- * @property string $name
- * @property string $email
- * @property string $password
- * @property string $role
- * @property string|null $remember_token
- * @property Carbon|null $created_at
- * @property Carbon|null $updated_at
- * 
- * @property Collection|CartItem[] $cart_items
- * @property Collection|Order[] $orders
- * @property Collection|SupportTicket[] $support_tickets
- *
- * @package App\Models
- */
-class User extends Model
+class User extends Authenticatable
 {
-	protected $table = 'users';
-	protected $primaryKey = 'user_id';
+    use Notifiable;
 
-	protected $hidden = [
-		'password',
-		'remember_token'
-	];
+    protected $table = 'users';
+    protected $primaryKey = 'user_id';   // указываем правильный первичный ключ
+    public $incrementing = true;         // если автоинкремент
+    protected $keyType = 'int';          // тип ключа
 
-	protected $fillable = [
-		'name',
-		'email',
-		'password',
-		'role',
-		'remember_token'
-	];
+    protected $hidden = [
+        'password',
+        'remember_token',
+    ];
 
-	public function cart_items()
-	{
-		return $this->hasMany(CartItem::class);
-	}
+    protected $fillable = [
+        'name',
+        'email',
+        'password',
+        'role',
+        'remember_token',
+    ];
 
-	public function orders()
-	{
-		return $this->hasMany(Order::class);
-	}
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+    ];
 
-	public function support_tickets()
-	{
-		return $this->hasMany(SupportTicket::class);
-	}
+    // Связи – не забываем указать внешний ключ (user_id), так как он нестандартный
+    public function cart_items()
+    {
+        return $this->hasMany(CartItem::class, 'user_id', 'user_id');
+    }
+
+    public function orders()
+    {
+        return $this->hasMany(Order::class, 'user_id', 'user_id');
+    }
+
+    public function support_tickets()
+    {
+        return $this->hasMany(SupportTicket::class, 'user_id', 'user_id');
+    }
+
+    // Метод для проверки администратора (если роль 'admin')
+    public function isAdmin()
+    {
+        return $this->role === 'admin';
+    }
 }
