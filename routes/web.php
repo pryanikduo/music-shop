@@ -9,6 +9,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SitemapController;
 
 Route::get('/', [MainController::class, 'main'])->name('main');
 // Route::get('/', function () {
@@ -41,5 +42,7 @@ Route::middleware('auth')->group(function () {
 // Обратная связь и техподдержка
 Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
 Route::post('/support', [App\Http\Controllers\SupportController::class, 'store'])->name('support.store');
+
+Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap');
 
 require __DIR__.'/auth.php';

@@ -53,6 +53,6 @@
     </div>
     <div class="footer-bottom">
         <p>© {{ date('Y') }} Все права защищены</p>
-        <p><a href="#">Карта сайта</a></p>
+        <p><a href="{{ route('sitemap') }}">Карта сайта</a></p>
     </div>
 </footer>
