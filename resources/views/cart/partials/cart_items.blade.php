@@ -8,7 +8,7 @@
             <div class="cart-item" id="cart-item-{{ $item->product->product_id }}">
                 <div class="cart-item-image">
                     @if($item->product->main_image)
-                        <img src="{{ asset('storage/' . $item->product->main_image) }}" alt="{{ $item->product->name }}">
+                        <img src="{{ asset('img/' . $item->product->main_image) }}" alt="{{ $item->product->name }}">
                     @else
                         <div class="no-image-placeholder">Нет фото</div>
                     @endif
