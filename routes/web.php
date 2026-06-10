@@ -13,7 +13,9 @@ Route::get('/', [MainController::class, 'main'])->name('main');
 Route::get('/', function () {
     return view('main');
 })->name('home');
+// Детальная страница новости (должна быть после общего маршрута /news, но до /news/{slug})
 Route::get('/news', [NewsController::class, 'news'])->name('news');
+Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
 Route::get('/about', [AboutController::class, 'about'])->name('about');
 Route::get('/catalog', [CatalogController::class, 'catalog'])->name('catalog');
 

@@ -1,107 +1,90 @@
 @include('layouts.head')
 
-@section('title', 'Главная страница')
+@section('title', 'Новости и акции')
 
 @include('layouts.menu')
 <body>
     <script src="{{ asset('js/menu.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-      <!-- start news -->
-  <section class="news">
-    <div class="container py-5">
-      <div class="row">
-
-        <h1 class="mt-5">
-          Последние новости
-        </h1>
-
-        <div class="col-10 col-lg-4 col-xl-3 my-5 m-0 m-auto">
-          <div class="card">
-            <div class="btn_sty">
-              <ion-icon name="arrow-forward-outline"></ion-icon>
+    <!-- Блок НОВОСТИ -->
+    <section class="news">
+        <div class="container py-5">
+            <h1 class="mt-5 mb-3">Последние новости</h1>
+            <div class="row">
+                @forelse($news as $item)
+                <div class="col-10 col-lg-4 col-xl-3 my-4 m-0 m-auto">
+                    <div class="card h-100">
+                        <a href="{{ route('news.show', $item->slug) }}" class="btn_sty" style="position: absolute; right: 15px; top: 15px; z-index: 10;">
+                            <ion-icon name="arrow-forward-outline"></ion-icon>
+                        </a>
+                        <div class="news_date">
+                            <h4>{{ \Carbon\Carbon::parse($item->published_at)->format('d m Y') }}</h4>
+                        </div>
+                        <img class="card-img-top" src="{{ asset($item->image ?? 'img/default_news.jpg') }}" alt="{{ $item->title }}">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ $item->title }}</h3>
+                            <p class="card-text my-3">{{ Str::limit(strip_tags($item->content), 120) }}</p>
+                        </div>
+                    </div>
+                </div>
+                @empty
+                <div class="col-12 text-center">Пока нет новостей. Загляните позже!</div>
+                @endforelse
             </div>
-            <div class="news_date">
-              <h4>
-                01 05 2026
-              </h4>
-            </div>
-            <img class="card-img-top" src="img/guitars.jpg" alt="Card image cap">
-            <div class="card-body">
-              <h3 class="card-title">Новая коллекция гитар Marshall уже у нас!</h3>
-              <p class="card-text my-3">Самые популярные представители мира гитар от бренда Marshall доступны 
-                для покупки в нашей сети.</p>
-            </div>
-          </div>
         </div>
-        <div class="col-10 col-lg-4 col-xl-3 my-5 m-0 m-auto">
-          <div class="card">
-            <div class="btn_sty">
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </div>
-            <div class="news_date">
-              <h4>
-                11 05 2026
-              </h4>
-            </div>
-            <img class="card-img-top" src="img/yamaha_synthesizer.jpg" alt="Card image cap">
-            <div class="card-body">
-              <h3 class="card-title">Синтезатор Yamaha SY77 уже доступен для покупки!</h3>
-              <p class="card-text my-3">Один из лучших в своём роде — синтезатор SY77 от бренда Yamaha уже готов
-                стать твоим проводником в мир музыки.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-10 col-lg-4 col-xl-3 my-5 m-0 m-auto">
-          <div class="card">
-            <div class="btn_sty">
-              <ion-icon name="arrow-forward-outline"></ion-icon>
-            </div>
-            <div class="news_date">
-              <h4>
-                01 06 2026
-              </h4>
-            </div>
-            <img class="card-img-top" src="img/otkritie.jpg" alt="Card image cap">
-            <div class="card-body">
-              <h3 class="card-title">Новый магазин открыл свои двери для вас!</h3>
-              <p class="card-text my-3">Новый магазин нашей сети открылся по адресу ул. Университетская 33
-                и уже ждёт вас к себе в гости.
-              </p>
-            </div>
-          </div>
-        </div>
+    </section>
 
-      </div>
+    <!-- Блок АКЦИИ (без детальных страниц, просто карточки) -->
+    <section class="promotions bg-light" style="background-color: var(--gray-bg);">
+        <div class="container py-5">
+            <h1 class="mt-3 mb-3">Акции и скидки</h1>
+            <div class="row">
+                @forelse($promotions as $promo)
+                <div class="col-10 col-lg-4 col-xl-3 my-4 m-0 m-auto">
+                    <div class="card h-100 border-warning">
+                        @if($promo->discount_percent)
+                            <div class="discount-badge" style="position: absolute; top: 10px; left: 10px; background-color: #e53e3e; color: white; padding: 5px 10px; border-radius: 30px; font-weight: bold; z-index: 10;">
+                                -{{ $promo->discount_percent }}%
+                            </div>
+                        @endif
+                        <div class="news_date">
+                            <h4>{{ \Carbon\Carbon::parse($promo->start_date)->format('d.m') }} – {{ \Carbon\Carbon::parse($promo->end_date)->format('d.m') }}</h4>
+                        </div>
+                        <img class="card-img-top" src="{{ asset($promo->image ?? 'img/default_promo.jpg') }}" alt="{{ $promo->title }}">
+                        <div class="card-body">
+                            <h3 class="card-title">{{ $promo->title }}</h3>
+                            <p class="card-text my-3">{{ Str::limit($promo->description, 120) }}</p>
+                        </div>
+                    </div>
+                </div>
+                @empty
+                <div class="col-12 text-center">На данный момент активных акций нет. Следите за обновлениями!</div>
+                @endforelse
+            </div>
+        </div>
+    </section>
+
+    <!-- Jumbotron (форма подписки) -->
+    <div class="jumbotron pb-4" id="jumbotron">
+        <div class="container pb-5">
+            <div class="row">
+                <h4 class="text-center">
+                    Оставайся с нами на связи и получи скидку в 15%<br>на свой первый заказ!
+                </h4>
+                <div class="col-12 col-lg-6 m-0 m-auto mt-4">
+                    <form action="#" method="POST" class="text-center">
+                        @csrf
+                        <input type="email" name="subscribe_email" placeholder="example@gmail.com" required>
+                        <button type="submit">Отправить</button>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
-  </section>
-  <!-- end news -->
-
-  <!-- Start Jumbotron -->
-  <div class="jumbotron pb-4" id="jumbotron">
-    <div class="container pb-5">
-      <div class="row">
-
-        <h4 class="text-center">
-          Оставайся с нами на связи и получи скидку в 15%<br>на свой первый заказ!</h4>
-        </h4>
-
-        <div class="col-12 col-lg-6 m-0 m-auto mt-4">
-          <form action="#" class="text-center">
-            <input type="email" placeholder="example@gmail.com" required>
-            <button type="submit">
-              Отправить
-            </button>
-          </form>
-        </div>
-
-      </div>
-    </div>
-  </div>
-  <!-- End Jumbotron -->
 
 </body>
 @include('layouts.footer')
