@@ -10,14 +10,16 @@ use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ProfileController;
 
 Route::get('/', [MainController::class, 'main'])->name('main');
-Route::get('/', function () {
-    return view('main');
-})->name('home');
+// Route::get('/', function () {
+//     return view('main');
+// })->name('home');
 // Детальная страница новости (должна быть после общего маршрута /news, но до /news/{slug})
 Route::get('/news', [NewsController::class, 'news'])->name('news');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
 Route::get('/about', [AboutController::class, 'about'])->name('about');
 Route::get('/catalog', [CatalogController::class, 'catalog'])->name('catalog');
+
+Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::post('/cart/add/{productId}', [CartController::class, 'add'])->name('cart.add');
