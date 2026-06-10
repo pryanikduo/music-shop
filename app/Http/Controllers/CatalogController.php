@@ -10,7 +10,6 @@ class CatalogController extends Controller
 {
     public function catalog(Request $request)
     {
-        // Базовый запрос: только активные товары, с категорией
         $query = Product::where('is_active', true)->with('category');
 
         // Поиск по названию
@@ -19,9 +18,13 @@ class CatalogController extends Controller
             $query->where('name', 'like', "%{$search}%");
         }
 
-        // Фильтр по категории
+        // Фильтр по категории (включая подкатегории)
         if ($request->filled('category') && $request->category != 'all') {
-            $query->where('category_id', $request->category);
+            $category = Category::find($request->category);
+            if ($category) {
+                $categoryIds = $category->getDescendantIds(); // включает текущую и всех потомков
+                $query->whereIn('category_id', $categoryIds);
+            }
         }
 
         // Фильтр по цене
@@ -35,26 +38,16 @@ class CatalogController extends Controller
         // Сортировка
         $sort = $request->input('sort', 'price_asc');
         switch ($sort) {
-            case 'price_asc':
-                $query->orderBy('price', 'asc');
-                break;
-            case 'price_desc':
-                $query->orderBy('price', 'desc');
-                break;
-            case 'name_asc':
-                $query->orderBy('name', 'asc');
-                break;
-            case 'name_desc':
-                $query->orderBy('name', 'desc');
-                break;
-            default:
-                $query->orderBy('price', 'asc');
+            case 'price_asc': $query->orderBy('price', 'asc'); break;
+            case 'price_desc': $query->orderBy('price', 'desc'); break;
+            case 'name_asc': $query->orderBy('name', 'asc'); break;
+            case 'name_desc': $query->orderBy('name', 'desc'); break;
+            default: $query->orderBy('price', 'asc');
         }
 
-        // Пагинация (12 товаров на страницу)
         $products = $query->paginate(12)->withQueryString();
 
-        // Список категорий для фильтра
+        // Список категорий для фильтра (можно оставить для формы фильтрации)
         $categories = Category::orderBy('name')->get();
 
         return view('catalog', compact('products', 'categories'));

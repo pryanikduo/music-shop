@@ -63,4 +63,13 @@ class Category extends Model
 	{
 		return $this->hasMany(Product::class);
 	}
+
+	public function getDescendantIds()
+	{
+		$ids = [$this->category_id];
+		foreach ($this->categories as $child) {
+			$ids = array_merge($ids, $child->getDescendantIds());
+		}
+		return $ids;
+	}
 }

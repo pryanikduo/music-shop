@@ -5,23 +5,11 @@
         </div>
         <a href="/" class="navigate-item"><span class="navigate-text">Главная</span></a>
         <div class="navigate-dropdown-menu">
-            <a href="/catalog" class="navigate-item">
+            <a href="{{ route('catalog') }}" class="navigate-item">
                 <span class="navigate-text">Каталог</span>
             </a>
             <ul class="dropdown-menu">
-                <li><a href="/catalog#1">Струнные</a></li>
-                <li class="dropdown-submenu">
-                    <a href="#">Клавишные</a>
-                    <ul class="dropdown-menu">
-                        <li><a href="#">Пианино</a></li>
-                        <li><a href="#">Синтезаторы</a></li>
-                        <li class="dropdown-submenu">
-                            <a href="#">Цифровые</a>
-                        </li>
-                    </ul>
-                </li>
-                <li><a href="/catalog#3">Смычковые</a></li>
-                <li><a href="/catalog#4">Ударные</a></li>
+                @include('layouts.partials.menu_recursive', ['categories' => $menuCategories])
             </ul>
         </div>
         <a href="/news" class="navigate-item"><span class="navigate-text">Новости и Акции</span></a>
