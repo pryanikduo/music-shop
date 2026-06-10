@@ -78,7 +78,7 @@
             @foreach($relatedProducts as $rel)
                 <div class="col-md-3 mb-4">
                     <div class="card h-100">
-                        <img src="{{ asset($rel->main_image ?? 'img/default_product.jpg') }}" class="card-img-top" alt="{{ $rel->name }}">
+                        <img src="{{ asset('img/' . $rel->main_image ?? 'img/default_product.jpg') }}" class="card-img-top" alt="{{ $rel->name }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ $rel->name }}</h5>
                             <p class="card-text">{{ number_format($rel->price, 0, ',', ' ') }} ₽</p>
