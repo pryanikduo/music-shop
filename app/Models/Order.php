@@ -45,6 +45,8 @@ class Order extends Model
 		'status',
 		'total_price',
 		'delivery_address',
+		'delivery_method',    
+    	'payment_method',
 		'phone',
 		'comment'
 	];
