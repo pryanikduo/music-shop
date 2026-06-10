@@ -33,4 +33,8 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+// Обратная связь и техподдержка
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
+Route::post('/support', [App\Http\Controllers\SupportController::class, 'store'])->name('support.store');
+
 require __DIR__.'/auth.php';

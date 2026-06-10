@@ -49,9 +49,62 @@
   </section>
   <!-- End Home -->
 
+  <!-- start Our Statistics -->
+    <!-- <section class="statistics">
+    <div class="container py-4 pb-5">
+      <div class="row">
 
+        <h1 class="mb-5 mt-2 text-center bg-yalow">
+          О нас в цифрах
+        </h1>
+
+        <div class="col-6 col-lg-2 m-0 m-auto my-2">
+          <div class="text-center stat_style py-4">
+            <h1>
+              > 30 тыс.
+            </h1>
+            <h3>
+              Довольных покупателей
+            </h3>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2 m-0 m-auto my-2">
+          <div class="text-center stat_style py-4">
+            <h1>
+              > 10 тыс.
+            </h1>
+            <h3>
+              Положительных отзывов
+            </h3>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2 m-0 m-auto my-2">
+          <div class="text-center stat_style py-4">
+            <h1>
+              > 10 тыс.
+            </h1>
+            <h3>
+              Партнёров
+            </h3>
+          </div>
+        </div>
+        <div class="col-6 col-lg-2 m-0 m-auto my-2">
+          <div class="text-center stat_style py-4">
+            <h1>
+              > 5 тыс.
+            </h1>
+            <h3>
+              Магазинов по России
+            </h3>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section> -->
+  <!-- end Our Statistics -->
   <!-- start brandss -->
-  <section class="brands">
+  <!-- <section class="brands">
     <div class="container">
 
       <div class="row py-3">
@@ -70,7 +123,7 @@
       </div>
 
     </div>
-  </section>
+  </section> -->
   <!-- end brandss -->
 
   <!-- start new collection -->

@@ -10,7 +10,16 @@
             </a>
             <ul class="dropdown-menu">
                 <li><a href="/catalog#1">Струнные</a></li>
-                <li><a href="/catalog#2">Клавишные</a></li>
+                <li class="dropdown-submenu">
+                    <a href="#">Клавишные</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="#">Пианино</a></li>
+                        <li><a href="#">Синтезаторы</a></li>
+                        <li class="dropdown-submenu">
+                            <a href="#">Цифровые</a>
+                        </li>
+                    </ul>
+                </li>
                 <li><a href="/catalog#3">Смычковые</a></li>
                 <li><a href="/catalog#4">Ударные</a></li>
             </ul>
@@ -28,8 +37,8 @@
 
         <!-- Блок авторизации -->
         @guest
-            <a href="{{ route('login') }}" class="navigate-item auth-btn">Вход</a>
-            <a href="{{ route('register') }}" class="navigate-item auth-btn">Регистрация</a>
+            <a href="{{ route('login') }}" class="auth-btn">Вход</a>
+            <a href="{{ route('register') }}" class="auth-btn">Регистрация</a>
         @else
     <div class="user-controls" style="display: flex; align-items: center; gap: 15px;">
         <span class="user-name" style="font-weight: bold;">{{ Auth::user()->name }}</span>

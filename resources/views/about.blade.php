@@ -1,110 +1,135 @@
 @include('layouts.head')
 
-@section('title', 'Главная страница')
+@section('title', $page->title ?? 'О нас')
 
 @include('layouts.menu')
 <body>
     <script src="{{ asset('js/menu.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
     <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
 
-    <h1 class="mt-5">
-          «Нота»: История о том, как гитара спасла инженера
-    </h1>
-    <h2 class="card-title mt-3 ms-3">Это случилось в середине девяностых, в то время, которое сейчас называют «лихим». Время, когда жизнь трещала по швам, а старые инженеры превращались в челноков, охранников или, если везло, в бизнесменов.
-+
-Главный герой нашей истории — Дмитрий Горелов. В прошлом — перспективный акустик НИИ «Спектр», в настоящем — растерянный мужчина под сорок, который умел рассчитывать резонансные частоты помещений, но совершенно не умел торговать. Оставшись без зарплаты за полгода, он, как и многие, «челночил» — возил из Германии дублёнки и сигареты.
-
-Однажды, в 1995 году, Дмитрий задержался в Гамбурге. Партия пуховиков оказалась бракованной, денег в обрез, а на душе — тоска смертная. Чтобы не спиться с тоски, он зашел в маленький музыкальный магазин на окраине. В руках у него замерла подержанная акустическая гитара «Sigma», пахнущая деревом и дорогой стариной.
-
-— Возьмите, — сказал седой немец, владелец лавки. — Она стоит двух ваших кожанок.
-
-Дмитрий не умел играть. Вернее, умел три блатных аккорда и «Цыганочку» на одной струне. Но, сидя в гостинице, он вдруг понял: это — его спасение. Два дня он не выходил из номера, струны врезались в пальцы до крови, но он сыграл свою первую настоящую мелодию. Простую, как утренний рассвет.
-
-Вернувшись в Москву, Дмитрий столкнулся с выбором: продать пальто или продать гитару. Пальто кормили семью, гитара — душу. Он выбрал третье: продал и то, и другое, добавил остатки маминых сбережений и купил партию гитар. Пятнадцать штук. Прямо из того самого немецкого магазина, который согласился отдать неликвид по дешёвке.
-
-Точка отсчета: первый «магазин» располагался в обычной хрущёвке. На кухне. Гитары стояли в углу вместо табуреток. Дмитрий, бывший акустик, поражал покупателей невероятным знанием дела: он рассказывал не про цвет и форму, а про породы дерева, про то, как резонирует дека, и почему у советской «Челябинки» гриф «ведёт». Его звали «тот гитарный псих с Кутузовского».
-
-Название родилось случайно. Первый осознанный покупатель — студент консерватории — взял в руки инструмент, дернул струну и сказал:
-— Идеальная нота. Чистая.
-Дмитрий вывел на картонной коробке (которая служила вывеской): «Нота. Музыка для всех».
-
-Бизнес не взлетал, он парил. В стране царил дефицит хороших инструментов: в госмагах торговали расстроенными «Уралами» и китайскими «стратокастерами» с пластиковым грифом. А у Горелова можно было взять в руки настоящую японскую «Yamaha» или немецкую «Höfner», пощупать лады и, главное, получить гарантию обратного выкупа. Если гитара не «запела» в руках через месяц — Дима забирал её назад. Искренне обижаясь на неё, как на предательницу.
-
-Точка роста. Самый красивый момент в легенде «Ноты» произошёл в 1998 году. Дефолт. Рынок рухнул, конкуренты ушли в тень, продавая доллары. У Дмитрия долларов не было — были только коробки с гитарами. Вместо того чтобы поднимать цены, он поступил как музыкант: открыл подвал в центре и организовал первую бесплатную репетиционную точку. «Купил инструмент? Играй в подвале хоть всю ночь. Не купил? Приходи слушать других».
-
-В этот подвал, где пахло сосной и перегаром, валом повалили рокеры, джазисты и бродяги-скрипачи. «Нота» стала не магазином, а клубом. Там родились несколько известных групп конца 90-х. И когда музыканты начинали зарабатывать, они возвращались к Горелову. Теперь уже за дорогой Gibson или Roland.
-
-Сеть разрослась не благодаря агрессивному маркетингу, а благодаря сарафанному радио: «Иди в «Ноту», там дядя Дима настроит гитару под твой голос и нальёт чаю, даже если ты студент и у тебя нет денег».
-
-К 2005 году «Нота» выкупила здание старого Дома культуры в каждом из пяти городов-миллионников. Стиль сети был узнаваем: никогда — стерильного блеска и холодных витрин. Только тёплый свет, диваны из кожзама, где можно «побренчать» до закрытия, и обязательное правило: каждый продавец — сам музыкант, способный сыграть вам хоть Шопена, хоть «Арию».
-
-Сегодня «Нота» — это федеральная сеть. Но в офисах до сих пор висит та самая первая гитара «Sigma», привезённая из Гамбурга за две дублёнки.
-
-А главная история гласит: однажды к престарелому Горелову пришёл мальчик с разбитым аккордеоном. Денег ноль. Дима отдал ему новенькую «Hohner», взяв в залог... рисунок. Мальчик нарисовал ноту, летящую сквозь облако.
-— Иди, — сказал Горелов. — Сыграй кому-нибудь так, чтобы у них мурашки пошли.
-
-Через двадцать лет тот мальчик стал управляющим филиалом «Ноты» в Санкт-Петербурге. А рисунок висит в кабинете основателя до сих пор.
-
-Потому что настоящий музыкальный магазин начинается не с денег. Он начинается с одной правильной ноты, которая меняет судьбу.</h2>
-
-
-    <!-- start Our Statistics -->
-    <section class="statistics">
-    <div class="container py-4 pb-5">
-      <div class="row">
-
-        <h1 class="mb-5 mt-2 text-center bg-yalow">
-          О нас в цифрах
-        </h1>
-
-        <div class="col-6 col-lg-2 m-0 m-auto my-2">
-          <div class="text-center stat_style py-4">
-            <h1>
-              > 30 тыс.
-            </h1>
-            <h3>
-              Довольных покупателей
-            </h3>
-          </div>
-        </div>
-        <div class="col-6 col-lg-2 m-0 m-auto my-2">
-          <div class="text-center stat_style py-4">
-            <h1>
-              > 10 тыс.
-            </h1>
-            <h3>
-              Положительных отзывов
-            </h3>
-          </div>
-        </div>
-        <div class="col-6 col-lg-2 m-0 m-auto my-2">
-          <div class="text-center stat_style py-4">
-            <h1>
-              > 10 тыс.
-            </h1>
-            <h3>
-              Партнёров
-            </h3>
-          </div>
-        </div>
-        <div class="col-6 col-lg-2 m-0 m-auto my-2">
-          <div class="text-center stat_style py-4">
-            <h1>
-              > 5 тыс.
-            </h1>
-            <h3>
-              Магазинов по России
-            </h3>
-          </div>
-        </div>
-
-      </div>
+    <!-- Блок истории компании (динамический) -->
+    <div class="container mt-5">
+        {!! $page->content !!}
     </div>
-  </section>
-  <!-- end Our Statistics -->
+
+    <!-- Блок статистики (статический) -->
+    <section class="statistics">
+        <div class="container py-4 pb-5">
+            <div class="row">
+                <h1 class="mb-5 mt-2 text-center bg-yalow">О нас в цифрах</h1>
+                <div class="col-6 col-lg-2 m-0 m-auto my-2">
+                    <div class="text-center stat_style py-4"><h1>> 30 тыс.</h1><h3>Довольных покупателей</h3></div>
+                </div>
+                <div class="col-6 col-lg-2 m-0 m-auto my-2">
+                    <div class="text-center stat_style py-4"><h1>> 10 тыс.</h1><h3>Положительных отзывов</h3></div>
+                </div>
+                <div class="col-6 col-lg-2 m-0 m-auto my-2">
+                    <div class="text-center stat_style py-4"><h1>> 10 тыс.</h1><h3>Партнёров</h3></div>
+                </div>
+                <div class="col-6 col-lg-2 m-0 m-auto my-2">
+                    <div class="text-center stat_style py-4"><h1>> 5 тыс.</h1><h3>Магазинов по России</h3></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Блок контактов, карты, обратной связи и техподдержки -->
+    <div class="container mb-5">
+        <div class="row">
+            <!-- Левая колонка: Контакты и карта -->
+            <div class="col-md-6">
+                <div class="contact-info p-4" style="background: #f8f8f5; border-radius: 20px;">
+                    <h2 style="color: #323232; border-left: 4px solid #fede67; padding-left: 15px;">Контакты</h2>
+                    <p><strong>Телефон:</strong> {{ $phone ?? '+7 (978) 123 45 67' }}</p>
+                    <p><strong>Email:</strong> {{ $email ?? 'nota@mail.ru' }}</p>
+                    <p><strong>Адрес:</strong> {{ $address ?? 'г. Москва, ул. Арбат, д. 10' }}</p>
+
+                    <div class="map mt-3">
+                        <h3 style="font-size: 1.3rem;">Схема проезда</h3>
+                        @if($map)
+                            {!! $map !!}
+                        @else
+                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2245.123456789!2d37.5903!3d55.7512!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNTXCsDQ1JzA0LjMiTiAzN8KwMzUnMjUuMiJF!5e0!3m2!1sru!2sru!4v1234567890123" width="100%" height="250" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                        @endif
+                    </div>
+                </div>
+            </div>
+
+            <!-- Правая колонка: Обратная связь и Техподдержка -->
+            <div class="col-md-6">
+                <!-- Форма обратной связи -->
+                <div class="feedback-form p-4 mb-4" style="background: #f8f8f5; border-radius: 20px;">
+                    <h2 style="color: #323232; border-left: 4px solid #fede67; padding-left: 15px;">Обратная связь</h2>
+                    <form action="{{ route('contact.store') }}" method="POST" id="contactForm">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Ваше имя *</label>
+                            <input type="text" class="form-control" name="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email *</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="phone" class="form-label">Телефон</label>
+                            <input type="tel" class="form-control" name="phone">
+                        </div>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Сообщение *</label>
+                            <textarea class="form-control" name="message" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn" style="background-color: #fede67; color: #323232;">Отправить</button>
+                    </form>
+                </div>
+
+                <!-- Форма техподдержки -->
+                <div class="support-form p-4" style="background: #f8f8f5; border-radius: 20px;">
+                    <h2 style="color: #323232; border-left: 4px solid #fede67; padding-left: 15px;">Техническая поддержка</h2>
+                    <form action="{{ route('support.store') }}" method="POST" id="supportForm">
+                        @csrf
+                        <div class="mb-3">
+                            <label for="subject" class="form-label">Тема *</label>
+                            <input type="text" class="form-control" name="subject" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="support_email" class="form-label">Email *</label>
+                            <input type="email" class="form-control" name="email" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="support_message" class="form-label">Сообщение *</label>
+                            <textarea class="form-control" name="message" rows="3" required></textarea>
+                        </div>
+                        <button type="submit" class="btn" style="background-color: #fede67; color: #323232;">Отправить запрос</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Простая клиентская валидация (для удобства)
+        document.getElementById('contactForm')?.addEventListener('submit', function(e) {
+            let name = this.querySelector('[name="name"]').value.trim();
+            let email = this.querySelector('[name="email"]').value.trim();
+            let message = this.querySelector('[name="message"]').value.trim();
+            if (!name || !email || !message) {
+                e.preventDefault();
+                alert('Пожалуйста, заполните обязательные поля (имя, email, сообщение).');
+            }
+        });
+        document.getElementById('supportForm')?.addEventListener('submit', function(e) {
+            let subject = this.querySelector('[name="subject"]').value.trim();
+            let email = this.querySelector('[name="email"]').value.trim();
+            let message = this.querySelector('[name="message"]').value.trim();
+            if (!subject || !email || !message) {
+                e.preventDefault();
+                alert('Пожалуйста, заполните все поля.');
+            }
+        });
+    </script>
 
 </body>
 @include('layouts.footer')

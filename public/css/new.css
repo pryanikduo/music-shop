@@ -1,0 +1,866 @@
+/* ============================================================
+   Единый стиль для главной страницы музыкального магазина
+   Цветовая схема: #323232 (темно-серый), #FFFFF0 (светлый крем), #fede67 (золотой/желтый)
+   ============================================================ */
+
+/* ---------- ПЕРЕМЕННЫЕ ---------- */
+:root {
+    --dark: #323232;
+    --light: #FFFFF0;
+    --gold: #fede67;
+    --gold-light: #ffe08c;
+    --gray-bg: #f8f8f5;
+    --card-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    --transition: all 0.25s ease;
+}
+
+/* ---------- БАЗОВЫЕ СТИЛИ ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    font-family: 'PT Mono', monospace;
+}
+
+body {
+    background-color: var(--light);
+    color: var(--dark);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    font-family: 'PT Mono', monospace;
+    user-select: none;
+}
+.bg-gray-100 {
+    background-color: var(--light) !important;
+}
+/* Кастомный скролл */
+::-webkit-scrollbar { width: 7px; }
+::-webkit-scrollbar-track { background-color: var(--dark); }
+::-webkit-scrollbar-thumb { background-color: var(--gold); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background-color: var(--gold-light); }
+
+h1, h2, h3, h4, h5 {
+    font-weight: 500;
+    letter-spacing: -0.3px;
+}
+
+a {
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+/* ---------- HEADER И НАВИГАЦИЯ ---------- */
+.site-header {
+    background-color: var(--dark);
+    padding: 0 100px;
+    margin: 0;
+    width: 100%;
+    z-index: 100;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+.navigate-menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+}
+
+.logo-menu {
+    height: 80px;
+    width: auto;
+    padding: 0 20px;
+}
+
+.navigate-item {
+    text-decoration: none;
+    color: var(--light);
+    font-size: 1rem;
+    height: 140px;
+    padding: 0 20px;
+    border-radius: 0 0 30px 30px;
+    display: flex;
+    align-items: center;
+    transition: var(--transition);
+    font-weight: 500;
+}
+
+.navigate-text {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding: 0 5px;
+}
+
+.navigate-item:hover {
+    background-color: var(--light);
+    color: var(--dark);
+    transform: translateY(-2px);
+}
+
+/* Выпадающее меню "Каталог" */
+.navigate-dropdown-menu {
+    position: relative;
+    height: 140px;
+    display: flex;
+    align-items: center;
+}
+
+.navigate-dropdown-menu .navigate-item {
+    height: 140px;
+    padding: 0 20px;
+}
+
+/* ===== НОВЫЙ МЕХАНИЗМ ПОЯВЛЕНИЯ МЕНЮ (display: none/block) ===== */
+.dropdown-menu,
+.dropdown-submenu .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    background-color: var(--light);
+    min-width: 200px;
+    box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    list-style: none;
+    padding: 10px 0;
+    margin: 0;
+    border-radius: 0 0 18px 18px;
+}
+
+/* Показываем главное выпадающее меню при наведении на "Каталог" */
+.navigate-dropdown-menu:hover > .dropdown-menu {
+    display: block;
+}
+
+/* Позиционирование для подменю */
+.dropdown-submenu {
+    position: relative;
+}
+
+/* Подменю второго и третьего уровней — вправо */
+.dropdown-submenu:hover > .dropdown-menu {
+    display: block;
+    top: 0;
+    left: 160%;
+    margin-top: -5px;
+    margin-left: 5px;
+    border-radius: 12px;
+}
+
+/* Стрелка для пунктов с подменю */
+.dropdown-submenu > a::after {
+    content: "▷";
+    float: right;
+    margin-left: 10px;
+    font-size: 0.7rem;
+    color: var(--dark);
+    transition: transform 0.2s;
+}
+
+.dropdown-submenu:hover > a::after {
+    transform: rotate(90deg);
+}
+
+/* Стили для ссылок внутри выпадающих меню */
+.dropdown-menu li a {
+    display: block;
+    padding: 12px 28px;
+    color: var(--dark);
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: var(--transition);
+    white-space: nowrap;
+}
+
+/* Изменение фона при наведении на пункты выпадающего меню (как вы просили) */
+.dropdown-menu li a:hover {
+    background-color: #f0f0f0;
+    padding-left: 36px;
+    border-radius: 10px;
+}
+
+/* ---------- СТРАНИЦА КОРЗИНЫ ---------- */
+.cart-container {
+    max-width: 1200px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.cart-container h1 {
+    font-size: 2.2rem;
+    margin-bottom: 30px;
+    color: var(--dark);
+    border-left: 5px solid var(--gold);
+    padding-left: 20px;
+}
+
+.cart-items {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    border-bottom: 1px solid #eee;
+    transition: var(--transition);
+}
+
+.cart-item:hover {
+    background-color: #fafaf5;
+}
+
+.cart-item-image {
+    width: 100px;
+    flex-shrink: 0;
+    background-color: var(--gray-bg);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.cart-item-image img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.cart-item-info {
+    flex: 2;
+}
+
+.cart-item-info h3 {
+    margin: 0 0 5px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.cart-item-info p {
+    margin: 0;
+    color: #555;
+    font-size: 0.9rem;
+}
+
+.cart-item-quantity {
+    width: 180px;
+}
+
+.cart-quantity-input {
+    width: 80px;
+    padding: 8px 10px;
+    text-align: center;
+    border: 1px solid #ddd;
+    border-radius: 40px;
+    font-family: 'PT Mono', monospace;
+    background: white;
+    transition: var(--transition);
+}
+
+.cart-quantity-input:focus {
+    outline: none;
+    border-color: var(--gold);
+    box-shadow: 0 0 0 2px rgba(254, 222, 103, 0.2);
+}
+
+.cart-item-total {
+    width: 120px;
+    text-align: right;
+    font-weight: 600;
+    color: var(--dark);
+}
+
+.remove-all-btn {
+    background: none;
+    border: none;
+    color: #e53e3e;
+    cursor: pointer;
+    font-size: 0.85rem;
+    padding: 6px 12px;
+    border-radius: 40px;
+    transition: var(--transition);
+    font-family: 'PT Mono', monospace;
+}
+
+.remove-all-btn:hover {
+    background-color: #fee2e2;
+    color: #c53030;
+}
+
+.cart-summary {
+    margin-top: 30px;
+    padding: 25px 30px;
+    background-color: var(--gray-bg);
+    border-radius: 24px;
+    text-align: right;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.cart-summary h2 {
+    font-size: 1.8rem;
+    color: var(--dark);
+}
+
+.checkout-btn {
+    display: inline-block;
+    margin-top: 15px;
+    background-color: var(--gold);
+    color: var(--dark);
+    padding: 12px 28px;
+    text-decoration: none;
+    border-radius: 40px;
+    font-weight: 600;
+    transition: var(--transition);
+    border: none;
+    cursor: pointer;
+    font-family: 'PT Mono', monospace;
+}
+
+.checkout-btn:hover {
+    background-color: var(--gold-light);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+/* Адаптив корзины */
+@media (max-width: 768px) {
+    .cart-item {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    .cart-item-image {
+        width: 70px;
+    }
+    .cart-item-info {
+        flex: 1 1 100%;
+    }
+    .cart-item-quantity,
+    .cart-item-total,
+    .cart-item-remove {
+        width: auto;
+        text-align: left;
+    }
+    .cart-summary {
+        text-align: center;
+    }
+}
+/* Кнопки авторизации */
+.auth-btn {
+    background-color: var(--gold);
+    color: var(--dark);
+    padding: 8px 18px;
+    border-radius: 40px;
+    font-weight: 600;
+    /* margin-left: 10px; */
+    font-size: 0.9rem;
+    border: none;
+    transition: var(--transition);
+}
+
+.auth-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.user-controls {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-name {
+    color: var(--light);
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.logout-btn {
+    background-color: var(--gold);
+    color: var(--dark);
+    border: none;
+    padding: 6px 14px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    font-weight: 600;
+    transition: var(--transition);
+}
+
+.logout-btn:hover {
+    background-color: #d4b84c;
+    transform: scale(0.97);
+}
+
+/* ---------- СЕКЦИЯ HOME (ГЛАВНЫЙ БАННЕР) ---------- */
+.home {
+    background-color: var(--dark);
+    padding: 60px 0;
+}
+
+.home h1, .home h2, .home h4 {
+    color: var(--light);
+}
+
+.home h2 {
+    font-size: 2.5rem;
+    opacity: 0.8;
+}
+
+.home h1 {
+    font-size: 4rem;
+    font-weight: 700;
+}
+
+.home h4 {
+    font-size: 1rem;
+    opacity: 0.7;
+    letter-spacing: 1px;
+}
+
+.home a {
+    display: inline-block;
+    padding: 10px 24px;
+    background-color: var(--gold);
+    color: var(--dark);
+    border-radius: 40px;
+    font-weight: 600;
+    margin-top: 20px;
+    transition: var(--transition);
+}
+
+.home a:hover {
+    background-color: var(--gold-light);
+    transform: translateY(-3px);
+}
+
+/* Карусель */
+#carouselExampleControls {
+    background-image: url(../images/crkels.png);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+}
+
+.carousel .carousel-indicators li {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--light);
+    border: 1px solid var(--dark);
+}
+
+.carousel .carousel-indicators .active {
+    background-color: var(--gold);
+}
+
+.carousel-control-next, .carousel-control-prev {
+    width: auto;
+    bottom: 16%;
+    opacity: 1;
+}
+
+.carousel-control-next {
+    right: 11%;
+}
+
+.carousel-control-prev {
+    left: 11%;
+}
+
+.carousel_buttons ion-icon,
+.carousel_buttons2 ion-icon {
+    font-size: 2.2rem;
+    color: var(--light);
+    transition: var(--transition);
+}
+
+.carousel_buttons ion-icon:hover,
+.carousel_buttons2 ion-icon:hover {
+    color: var(--gold);
+    transform: scale(1.05);
+}
+
+/* ---------- БРЕНДЫ ---------- */
+.brands {
+    background-color: var(--gray-bg);
+    padding: 20px 0;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+}
+
+.brands img {
+    filter: grayscale(0.4);
+    opacity: 0.7;
+    transition: var(--transition);
+}
+
+.brands img:hover {
+    filter: grayscale(0);
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* ---------- НОВАЯ КОЛЛЕКЦИЯ ---------- */
+.collection {
+    background-color: var(--light);
+    padding: 40px 0;
+}
+
+.collection h1 {
+    color: var(--dark);
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.sho_card {
+    background-color: var(--gold);
+    border-radius: 24px;
+    transition: var(--transition);
+    overflow: hidden;
+}
+
+.sho_card .card {
+    background: transparent;
+    border: none;
+    position: relative;
+    overflow: hidden;
+    border-radius: 24px;
+}
+
+.BG-GRAY {
+    background-color: #e0ddd5 !important;
+}
+
+.sho_card .card img {
+    object-fit: cover;
+    transition: transform 0.4s ease;
+}
+
+.sho_card .card img:hover {
+    transform: scale(1.05);
+}
+
+.sho_card .card-title {
+    font-size: 1.3rem;
+    color: var(--dark);
+    font-weight: 600;
+}
+
+.sho_card .btn_sty {
+    position: absolute;
+    right: 20px;
+    bottom: 20px;
+    z-index: 2;
+}
+
+.sho_card .btn_sty a {
+    background-color: var(--dark);
+    color: var(--light);
+    padding: 6px 16px;
+    border-radius: 40px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+.sho_card .btn_sty a:hover {
+    background-color: #1f1f1f;
+    color: var(--gold);
+}
+
+/* ---------- ТОП ПРОДАЖ ---------- */
+.sellers {
+    background-color: var(--light);
+    padding: 20px 0 60px;
+}
+
+.sellers h1 {
+    color: var(--dark);
+    font-size: 2.2rem;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.sellers .card {
+    border: none;
+    background: transparent;
+    transition: var(--transition);
+}
+
+.sellers .card:hover {
+    transform: translateY(-5px);
+}
+
+.img_conta {
+    border-radius: 24px;
+    background-color: var(--gray-bg);
+    overflow: hidden;
+    margin-bottom: 12px;
+}
+
+.img_conta img {
+    transition: transform 0.3s ease;
+}
+
+.img_conta img:hover {
+    transform: scale(1.05);
+}
+
+.card-body h5 {
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.card-body .card-text {
+    color: var(--dark);
+    font-weight: 500;
+}
+
+/* Кнопки "лайк" и "в корзину" */
+.hart_col {
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: var(--dark);
+    position: absolute;
+    right: 15px;
+    top: 15px;
+    z-index: 2;
+    transition: var(--transition);
+}
+
+.hart_col .heart-filled {
+    display: none;
+    color: #e74c3c;
+}
+
+.hart_col:hover .heart-outline {
+    display: none;
+}
+
+.hart_col:hover .heart-filled {
+    display: inline-block;
+}
+
+.bag_col {
+    cursor: pointer;
+}
+
+.bag_col ion-icon {
+    font-size: 1.5rem;
+    background-color: var(--gold);
+    padding: 6px;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.bag_col .bag-filled {
+    display: none;
+    color: #2ecc71;
+}
+
+.bag_col:hover .bag-outline {
+    display: none;
+}
+
+.bag_col:hover .bag-filled {
+    display: inline-block;
+}
+
+.bag_col:hover ion-icon {
+    background-color: var(--gold-light);
+    transform: scale(1.05);
+}
+
+/* ---------- ФУТЕР ---------- */
+.site-footer {
+    background-color: var(--dark);
+    color: var(--light);
+    padding: 50px 20px 30px;
+    margin-top: 60px;
+    border-top: 2px solid var(--gold);
+}
+
+.footer-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    max-width: 1200px;
+    margin: 0 auto;
+    gap: 30px;
+}
+
+.footer-col {
+    min-width: 180px;
+}
+
+.footer-col h3 {
+    color: var(--gold);
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    font-weight: 600;
+}
+
+.footer-col ul {
+    list-style: none;
+    padding: 0;
+}
+
+.footer-col li {
+    margin-bottom: 10px;
+}
+
+.footer-col a, .footer-col p {
+    color: var(--light);
+    text-decoration: none;
+    font-size: 0.9rem;
+    opacity: 0.8;
+    transition: var(--transition);
+}
+
+.footer-col a:hover {
+    opacity: 1;
+    color: var(--gold);
+    padding-left: 5px;
+}
+
+.social-media {
+    margin-top: 15px;
+}
+
+.social-media img {
+    width: 28px;
+    height: 28px;
+    margin-right: 12px;
+    transition: var(--transition);
+    filter: brightness(0) invert(1);
+}
+
+.social-media img:hover {
+    transform: translateY(-3px);
+    filter: brightness(0) invert(0.8);
+}
+
+.footer-bottom {
+    text-align: center;
+    padding-top: 30px;
+    margin-top: 30px;
+    border-top: 1px solid rgba(255,255,240,0.2);
+    font-size: 0.8rem;
+    color: #aaa;
+}
+
+.footer-bottom a {
+    color: var(--gold);
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+
+/* ---------- АДАПТИВНОСТЬ ---------- */
+@media (max-width: 992px) {
+    .site-header {
+        padding: 0 20px;
+    }
+    .navigate-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 5px;
+    }
+    .navigate-item, .navigate-dropdown-menu {
+        height: auto;
+        padding: 10px 12px;
+    }
+    .site-header {
+        height: auto;
+        padding: 15px 20px;
+        border-radius: 0 0 20px 20px;
+    }
+    .home h1 {
+        font-size: 2.8rem;
+    }
+    .home h2 {
+        font-size: 1.8rem;
+    }
+    .carousel-control-next, .carousel-control-prev {
+        bottom: 5%;
+    }
+    .carousel-control-next {
+        right: 5%;
+    }
+    .carousel-control-prev {
+        left: 5%;
+    }
+}
+
+@media (max-width: 768px) {
+    .navigate-menu {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    .logo-container {
+        justify-content: center;
+    }
+    .auth-btn, .user-controls {
+        margin-top: 10px;
+        justify-content: center;
+    }
+    .footer-container {
+        flex-direction: column;
+        text-align: center;
+    }
+    .footer-col {
+        margin-bottom: 30px;
+    }
+    .home h1 {
+        font-size: 2rem;
+    }
+    .sho_card .card-title {
+        font-size: 1rem;
+    }
+
+    /* Мобильная адаптация подменю */
+    .dropdown-submenu > .dropdown-menu {
+        position: static;
+        left: auto;
+        margin-left: 15px;
+        margin-top: 0;
+        width: calc(100% - 15px);
+        box-shadow: none;
+        border-left: 2px solid var(--gold);
+        border-radius: 0;
+    }
+    .dropdown-submenu > a::after {
+        content: "▼";
+    }
+    .dropdown-submenu:hover > a::after {
+        transform: rotate(180deg);
+    }
+}
+
+@media (max-width: 480px) {
+    .home a {
+        padding: 6px 16px;
+        font-size: 0.8rem;
+    }
+    .sellers .card .btn_sty {
+        font-size: 1rem;
+    }
+    .collection h1, .sellers h1 {
+        font-size: 1.6rem;
+    }
+}
