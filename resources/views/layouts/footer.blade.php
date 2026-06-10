@@ -32,8 +32,8 @@
                 <div class="social-media">
                     <p>Наши соцсети</p>
                     <a href="#">
-                        <img src="img/vk.svg">
-                        <img src="img/telegram.svg">
+                        <img src="{{ asset('img/vk.svg') }}">
+                        <img src="{{ asset('img/telegram.svg') }}">
                     </a>
                 </div>
             </ul>

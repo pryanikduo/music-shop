@@ -74,7 +74,7 @@
                                     <a href="{{ route('product.show', $product->slug) }}" type="button">Открыть</a>
                                 </div>
                             </div>
-                            <img src="{{ asset($product->main_image ?? 'images/products/N_C_3.png') }}" alt="" class="card-image">
+                            <img src="{{ asset('img/' . $product->main_image ?? 'images/products/N_C_3.png') }}" alt="" class="card-image">
                         </div>
                     </div>
                 @endforeach
@@ -98,7 +98,7 @@
                                 </span>
                             </div>
                             <div class="img_conta">
-                                <img class="card-img-top" src="{{ asset($product->main_image ?? 'images/products/Sellers_1.png') }}" alt="{{ $product->name }}">
+                                <img class="card-img-top" src="{{ asset('img/' . $product->main_image ?? 'images/products/Sellers_1.png') }}" alt="{{ $product->name }}">
                             </div>
                             <div class="card-body d-flex justify-content-between">
                                 <div>
