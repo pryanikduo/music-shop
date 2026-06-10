@@ -69,7 +69,7 @@
                     <div class="col-10 col-lg-3 m-0 m-auto sho_card my-5">
                         <div class="card">
                             <div class="card-text">
-                                <h2 class="card-title mt-3 ms-3">{{ $product->name }}</h2>
+                                <h3 class="card-title mt-3 ms-3">{{ $product->name }}</h3>
                                 <div class="btn_sty">
                                     <a href="{{ route('product.show', $product->slug) }}" type="button">Открыть</a>
                                 </div>

@@ -13,12 +13,12 @@
     <!-- Блок НОВОСТИ -->
     <section class="news">
         <div class="container py-5">
-            <h1 class="mt-5 mb-3">Последние новости</h1>
+            <h1>Последние новости</h1>
             <div class="row">
                 @forelse($news as $item)
                 <div class="col-10 col-lg-4 col-xl-3 my-4 m-0 m-auto">
                     <div class="card h-100">
-                        <a href="{{ route('news.show', $item->slug) }}" class="btn_sty" style="position: absolute; right: 15px; top: 15px; z-index: 10;">
+                        <a href="{{ route('news.show', $item->slug) }}" class="btn_sty">
                             <ion-icon name="arrow-forward-outline"></ion-icon>
                         </a>
                         <div class="news_date">
@@ -38,18 +38,16 @@
         </div>
     </section>
 
-    <!-- Блок АКЦИИ (без детальных страниц, просто карточки) -->
-    <section class="promotions bg-light" style="background-color: var(--gray-bg);">
+    <!-- Блок АКЦИИ -->
+    <section class="promotions" style="background-color: var(--gray-bg);">
         <div class="container py-5">
-            <h1 class="mt-3 mb-3">Акции и скидки</h1>
+            <h1>Акции и скидки</h1>
             <div class="row">
                 @forelse($promotions as $promo)
                 <div class="col-10 col-lg-4 col-xl-3 my-4 m-0 m-auto">
-                    <div class="card h-100 border-warning">
+                    <div class="card h-100">
                         @if($promo->discount_percent)
-                            <div class="discount-badge" style="position: absolute; top: 10px; left: 10px; background-color: #e53e3e; color: white; padding: 5px 10px; border-radius: 30px; font-weight: bold; z-index: 10;">
-                                -{{ $promo->discount_percent }}%
-                            </div>
+                            <div class="discount-badge">-{{ $promo->discount_percent }}%</div>
                         @endif
                         <div class="news_date">
                             <h4>{{ \Carbon\Carbon::parse($promo->start_date)->format('d.m') }} – {{ \Carbon\Carbon::parse($promo->end_date)->format('d.m') }}</h4>
@@ -68,8 +66,8 @@
         </div>
     </section>
 
-    <!-- Jumbotron (форма подписки) -->
-    <div class="jumbotron pb-4" id="jumbotron">
+    <!-- Jumbotron -->
+    <div class="jumbotron pb-4">
         <div class="container pb-5">
             <div class="row">
                 <h4 class="text-center">
