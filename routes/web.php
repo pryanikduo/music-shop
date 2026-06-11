@@ -21,6 +21,8 @@ Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
 Route::get('/about', [AboutController::class, 'about'])->name('about');
 Route::get('/catalog', [CatalogController::class, 'catalog'])->name('catalog');
 
+Route::get('/lang/{locale}', [App\Http\Controllers\LanguageController::class, 'switch'])->name('language.switch');
+
 Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
 
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
