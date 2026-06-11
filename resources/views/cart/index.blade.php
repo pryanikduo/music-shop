@@ -1,49 +1,105 @@
 @extends('layouts.app')
 
+@section('title', 'Корзина')
+
 @section('content')
-<div class="py-12">
-    <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-        <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg p-6">
-            <h2 class="text-2xl font-bold mb-4">Корзина</h2>
-            @if($cart->isEmpty())
-                <p>Ваша корзина пуста.</p>
-            @else
-                <table class="min-w-full divide-y divide-gray-200">
-                    <thead class="bg-gray-50">
-                        <tr><th class="px-6 py-3 text-left">Товар</th><th>Цена</th><th>Количество</th><th>Сумма</th><th></th></tr>
-                    </thead>
-                    <tbody>
-                        @foreach($cart as $item)
-                        <tr>
-                            <td class="px-6 py-4">{{ $item->product->name }}</td>
-                            <td class="px-6 py-4">{{ number_format($item->product->price, 2) }} руб.</td>
-                            <td class="px-6 py-4">
-                                <form action="{{ route('cart.update', $item->product) }}" method="POST" class="inline-flex items-center gap-2">
-                                    @csrf @method('PATCH')
-                                    <input type="number" name="quantity" value="{{ $item->quantity }}" min="1" class="w-20 border rounded px-2 py-1">
-                                    <button type="submit" class="bg-blue-500 text-white px-3 py-1 rounded text-sm">Обновить</button>
-                                </form>
-                            </td>
-                            <td class="px-6 py-4">{{ number_format($item->quantity * $item->product->price, 2) }} руб.</td>
-                            <td class="px-6 py-4">
-                                <form action="{{ route('cart.remove', $item->product) }}" method="POST">
-                                    @csrf @method('DELETE')
-                                    <button type="submit" class="bg-red-500 text-white px-3 py-1 rounded text-sm">Удалить</button>
-                                </form>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                <div class="mt-6 text-xl font-bold">Итого: {{ number_format($total, 2) }} руб.</div>
-                
-                @auth
-                    <a href="{{ route('checkout') }}" class="mt-4 inline-block bg-green-600 text-white px-6 py-2 rounded-lg">Оформить заказ</a>
-                @else
-                    <p class="mt-4 text-red-500">Для оформления заказа, пожалуйста, <a href="{{ route('login') }}" class="underline">войдите</a> или <a href="{{ route('register') }}" class="underline">зарегистрируйтесь</a>.</p>
-                @endauth
-            @endif
-        </div>
+<div class="cart-container">
+    <h1>Корзина</h1>
+    <div id="cart-content">
+        @include('cart.partials.cart_items', ['cart' => $cart, 'total' => $total])
     </div>
 </div>
 @endsection
+
+@push('scripts')
+<script>
+    function updateCartItem(productId, quantity) {
+        fetch('/cart/update/' + productId, {
+            method: 'PATCH',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            },
+            body: JSON.stringify({ quantity: quantity })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const itemTotalSpan = document.getElementById(`item-total-${data.product_id}`);
+                if (itemTotalSpan) itemTotalSpan.innerText = data.item_total + ' руб.';
+                const totalSpan = document.getElementById('cart-total');
+                if (totalSpan) totalSpan.innerText = data.total + ' руб.';
+                const cartCountElem = document.querySelector('.cart-count');
+                if (cartCountElem) {
+                    cartCountElem.innerText = data.cart_count;
+                    cartCountElem.style.display = data.cart_count == 0 ? 'none' : '';
+                }
+                if (data.quantity === 0) {
+                    const row = document.getElementById(`cart-item-${data.product_id}`);
+                    if (row) row.remove();
+                }
+                if (data.cart_count === 0) {
+                    document.getElementById('cart-content').innerHTML = '<div class="cart-empty-message"><p>Ваша корзина пуста. <a href="{{ route("catalog") }}" class="gold-link">Перейти в каталог</a></p></div>';
+                }
+            } else {
+                alert('Ошибка: ' + (data.error || 'Не удалось обновить'));
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    function removeCartItem(productId) {
+        if (!confirm('Удалить все товары этого типа из корзины?')) return;
+        fetch('/cart/remove/' + productId, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const row = document.getElementById(`cart-item-${data.product_id}`);
+                if (row) row.remove();
+                const totalSpan = document.getElementById('cart-total');
+                if (totalSpan) totalSpan.innerText = data.total + ' руб.';
+                const cartCountElem = document.querySelector('.cart-count');
+                if (cartCountElem) {
+                    cartCountElem.innerText = data.cart_count;
+                    cartCountElem.style.display = data.cart_count == 0 ? 'none' : '';
+                }
+                if (data.cart_empty) {
+                    document.getElementById('cart-content').innerHTML = '<div class="cart-empty-message"><p>Ваша корзина пуста. <a href="{{ route("catalog") }}" class="gold-link">Перейти в каталог</a></p></div>';
+                }
+            } else {
+                alert('Ошибка удаления');
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.addEventListener('change', function(e) {
+            if (e.target && e.target.classList.contains('cart-quantity-input')) {
+                let productId = e.target.getAttribute('data-product-id');
+                let quantity = parseInt(e.target.value, 10);
+                if (isNaN(quantity)) quantity = 1;
+                let max = parseInt(e.target.getAttribute('max'), 10);
+                if (quantity < 1) quantity = 1;
+                if (quantity > max) quantity = max;
+                e.target.value = quantity;
+                updateCartItem(productId, quantity);
+            }
+        });
+
+        document.body.addEventListener('click', function(e) {
+            if (e.target && e.target.classList.contains('remove-all-btn')) {
+                e.preventDefault();
+                let productId = e.target.getAttribute('data-product-id');
+                if (productId) removeCartItem(productId);
+            }
+        });
+    });
+</script>
+@endpush

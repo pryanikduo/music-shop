@@ -31,4 +31,10 @@ class Setting extends Model
 		'value',
 		'type'
 	];
+	
+	public static function getValue($key, $default = null)
+	{
+		$setting = self::where('key', $key)->first();
+		return $setting ? $setting->value : $default;
+	}
 }

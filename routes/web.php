@@ -8,19 +8,25 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\CatalogController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\SitemapController;
 
 Route::get('/', [MainController::class, 'main'])->name('main');
-Route::get('/', function () {
-    return view('main');
-})->name('home');
+// Route::get('/', function () {
+//     return view('main');
+// })->name('home');
+// Детальная страница новости (должна быть после общего маршрута /news, но до /news/{slug})
 Route::get('/news', [NewsController::class, 'news'])->name('news');
+Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
 Route::get('/about', [AboutController::class, 'about'])->name('about');
 Route::get('/catalog', [CatalogController::class, 'catalog'])->name('catalog');
 
+Route::get('/product/{slug}', [ProductController::class, 'show'])->name('product.show');
+
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
-Route::post('/cart/add/{product}', [CartController::class, 'add'])->name('cart.add');
-Route::patch('/cart/update/{product}', [CartController::class, 'update'])->name('cart.update');
-Route::delete('/cart/remove/{product}', [CartController::class, 'remove'])->name('cart.remove');
+Route::post('/cart/add/{productId}', [CartController::class, 'add'])->name('cart.add');
+Route::patch('/cart/update/{productId}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{productId}', [CartController::class, 'remove'])->name('cart.remove');
 
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', [OrderController::class, 'checkout'])->name('checkout');
@@ -32,5 +38,11 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+
+// Обратная связь и техподдержка
+Route::post('/contact', [App\Http\Controllers\ContactController::class, 'store'])->name('contact.store');
+Route::post('/support', [App\Http\Controllers\SupportController::class, 'store'])->name('support.store');
+
+Route::get('/sitemap', [SitemapController::class, 'index'])->name('sitemap');
 
 require __DIR__.'/auth.php';
