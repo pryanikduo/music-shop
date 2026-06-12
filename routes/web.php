@@ -11,11 +11,43 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SitemapController;
 
+// Никакие административные контроллеры здесь не импортируются,
+// чтобы избежать конфликта имён с пользовательскими.
+
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    // Используем полные имена классов без импорта (с ведущим слешем)
+    Route::get('/', [\App\Http\Controllers\Admin\AdminController::class, 'index'])->name('dashboard');
+
+    // Управление товарами
+    Route::resource('products', \App\Http\Controllers\Admin\ProductController::class);
+    // Управление категориями
+    Route::resource('categories', \App\Http\Controllers\Admin\CategoryController::class);
+    // Управление акциями
+    Route::resource('promotions', \App\Http\Controllers\Admin\PromotionController::class);
+    // Управление новостями
+    Route::resource('news', \App\Http\Controllers\Admin\NewsController::class);
+    // Управление статическими страницами (pages)
+    Route::resource('pages', \App\Http\Controllers\Admin\PageController::class);
+    // Заказы
+    Route::resource('orders', \App\Http\Controllers\Admin\OrderController::class)->only(['index', 'show', 'update']);
+    // Сообщения обратной связи
+    Route::resource('contact-messages', \App\Http\Controllers\Admin\ContactMessageController::class)->only(['index', 'show', 'destroy']);
+    // Тикеты поддержки
+    Route::resource('support-tickets', \App\Http\Controllers\Admin\SupportTicketController::class)->only(['index', 'show', 'update']);
+    // Настройки сайта
+    Route::get('settings', [\App\Http\Controllers\Admin\SettingController::class, 'edit'])->name('settings.edit');
+    Route::put('settings', [\App\Http\Controllers\Admin\SettingController::class, 'update'])->name('settings.update');
+
+    // Загрузка изображений через редактор (TinyMCE)
+    Route::post('upload-image', [\App\Http\Controllers\Admin\UploadController::class, 'uploadImage'])->name('upload.image');
+});
+
+// Пользовательские маршруты
 Route::get('/', [MainController::class, 'main'])->name('main');
 // Route::get('/', function () {
 //     return view('main');
 // })->name('home');
-// Детальная страница новости (должна быть после общего маршрута /news, но до /news/{slug})
+
 Route::get('/news', [NewsController::class, 'news'])->name('news');
 Route::get('/news/{slug}', [NewsController::class, 'show'])->name('news.show');
 Route::get('/about', [AboutController::class, 'about'])->name('about');
