@@ -42,6 +42,15 @@
 
         <!-- Переключатель языка -->
         <x-language-switcher />
+
+        <!-- Кнопка в админку для пользователей с ролью admin -->
+        @auth
+            @if(Auth::user()->role === 'admin')
+                <a href="{{ route('admin.dashboard') }}" class="navigate-item">
+                    <span class="navigate-text">Админка</span>
+                </a>
+            @endif
+        @endauth
     </nav>
     @stack('scripts')
 </header>

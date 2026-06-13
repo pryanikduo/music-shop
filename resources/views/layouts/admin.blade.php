@@ -17,40 +17,40 @@
     @stack('styles')
 </head>
 <body>
-    <div class="container-fluid">
-        <div class="row">
-            <!-- Sidebar -->
-            <nav class="col-md-2 d-md-block sidebar p-0">
-                <div class="position-sticky pt-3">
-                    <h5 class="text-center py-3">Музыкальный магазин</h5>
-                    <ul class="nav flex-column">
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Дашборд</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.products.index') }}"><i class="fas fa-guitar"></i> Товары</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.categories.index') }}"><i class="fas fa-folder"></i> Категории</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.promotions.index') }}"><i class="fas fa-tags"></i> Акции</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.news.index') }}"><i class="fas fa-newspaper"></i> Новости</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.pages.index') }}"><i class="fas fa-file-alt"></i> Страницы</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.orders.index') }}"><i class="fas fa-shopping-cart"></i> Заказы</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('admin.settings.edit') }}"><i class="fas fa-cog"></i> Настройки</a></li>
-                        <li class="nav-item"><a class="nav-link" href="{{ route('main') }}"><i class="fas fa-home"></i> На сайт</a></li>
-                        <li class="nav-item">
-                            <form method="POST" action="{{ route('logout') }}">
-                                @csrf
-                                <button type="submit" class="btn nav-link" style="background:none; border:none; color:#ddd;"><i class="fas fa-sign-out-alt"></i> Выйти</button>
-                            </form>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-md-block sidebar p-0">
+            <div class="position-sticky pt-3">
+                <h5 class="text-center py-3">Админка "Ноты"</h5>
+                <ul class="nav flex-column">
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.dashboard') }}"><i class="fas fa-tachometer-alt"></i> Дашборд</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.products.index') }}"><i class="fas fa-guitar"></i> Товары</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.categories.index') }}"><i class="fas fa-folder"></i> Категории</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.promotions.index') }}"><i class="fas fa-tags"></i> Акции</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.news.index') }}"><i class="fas fa-newspaper"></i> Новости</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.pages.index') }}"><i class="fas fa-file-alt"></i> Страницы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.orders.index') }}"><i class="fas fa-shopping-cart"></i> Заказы</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('admin.settings.edit') }}"><i class="fas fa-cog"></i> Настройки</a></li>
+                    <li class="nav-item"><a class="nav-link" href="{{ route('main') }}"><i class="fas fa-home"></i> На сайт</a></li>
+                    <li class="nav-item">
+                        <form method="POST" action="{{ route('logout') }}">
+                            @csrf
+                            <button type="submit" class="btn nav-link" style="background:none; border:none; color:#ddd;"><i class="fas fa-sign-out-alt"></i> Выйти</button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </nav>
 
-            <!-- Main content -->
-            <main class="col-md-10 ms-sm-auto px-md-4 content">
-                @yield('content')
-            </main>
-        </div>
+        <!-- Main content -->
+        <main class="col-md-10 ms-sm-auto px-md-4 content">
+            @yield('content')
+        </main>
     </div>
+</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    @stack('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+@stack('scripts')
 </body>
 </html>
