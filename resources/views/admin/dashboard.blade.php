@@ -96,6 +96,16 @@
                 </div>
             </div>
         </div>
+        <!-- Пользователи -->
+        <div class="col-md-3">
+            <div class="card text-white bg-secondary mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Пользователи</h5>
+                    <p class="card-text">Управление учётными записями и правами</p>
+                    <a href="{{ route('admin.users.index') }}" class="btn btn-light">Перейти</a>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 @endsection
