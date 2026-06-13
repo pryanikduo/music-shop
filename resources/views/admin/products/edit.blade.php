@@ -7,6 +7,7 @@
         <form action="{{ route('admin.products.update', $product) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
+            <!-- все поля редактирования товара -->
             <div class="mb-3">
                 <label>Категория</label>
                 <select name="category_id" class="form-control" required>
@@ -24,8 +25,71 @@
                 @if($product->main_image) <img src="{{ asset('storage/'.$product->main_image) }}" height="50"> @endif
             </div>
             <div class="mb-3 form-check"><input type="checkbox" name="is_active" class="form-check-input" value="1" {{ old('is_active', $product->is_active) ? 'checked' : '' }}> <label>Активен</label></div>
-            <button type="submit" class="btn btn-primary">Обновить</button>
+            <button type="submit" class="btn btn-primary">Обновить товар</button>
         </form>
     </div>
 </div>
+
+<!-- Блок управления галереей -->
+<div class="card mt-4">
+    <div class="card-header"><h4>Галерея товара (карусель)</h4></div>
+    <div class="card-body">
+        <!-- Форма для добавления нового изображения -->
+        <form action="{{ route('admin.products.images.store', $product) }}" method="POST" enctype="multipart/form-data" class="mb-4">
+            @csrf
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="file" name="image" class="form-control" required>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary">Добавить изображение</button>
+                </div>
+            </div>
+        </form>
+
+        <!-- Список существующих изображений -->
+        <div id="gallery-list">
+            @foreach($images as $img)
+                <div class="gallery-item mb-3 p-2 border rounded d-flex align-items-center" data-id="{{ $img->img_id }}">
+                    <div class="drag-handle me-3" style="cursor: move;">⋮⋮</div>
+                    <img src="{{ asset('storage/'.$img->image_path) }}" style="height: 60px; width: auto;" class="me-3">
+                    <div class="flex-grow-1">
+                        <span class="badge bg-secondary">Порядок: {{ $img->sort_order }}</span>
+                    </div>
+                    <form action="{{ route('admin.products.images.destroy', $img) }}" method="POST" class="d-inline">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Удалить изображение?')">Удалить</button>
+                    </form>
+                </div>
+            @endforeach
+        </div>
+    </div>
+</div>
 @endsection
+
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
+<script>
+    var el = document.getElementById('gallery-list');
+    var sortable = Sortable.create(el, {
+        handle: '.drag-handle',
+        onEnd: function() {
+            let order = [];
+            document.querySelectorAll('#gallery-list .gallery-item').forEach((item, idx) => {
+                order.push(item.dataset.id);
+            });
+            fetch('{{ route("admin.products.images.order") }}', {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                },
+                body: JSON.stringify({ order: order })
+            }).then(response => response.json()).then(data => {
+                if(data.success) location.reload();
+            });
+        }
+    });
+</script>
+@endpush

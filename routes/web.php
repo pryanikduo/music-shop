@@ -42,6 +42,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
     // Загрузка изображений через редактор (TinyMCE)
     Route::post('upload-image', [\App\Http\Controllers\Admin\UploadController::class, 'uploadImage'])->name('upload.image');
+    Route::post('products/{product}/images', [\App\Http\Controllers\Admin\ProductController::class, 'storeImage'])->name('products.images.store');
+    Route::patch('products/images/order', [\App\Http\Controllers\Admin\ProductController::class, 'updateImageOrder'])->name('products.images.order');
+    Route::delete('products/images/{image}', [\App\Http\Controllers\Admin\ProductController::class, 'destroyImage'])->name('products.images.destroy');
+
 });
 
 // Пользовательские маршруты
