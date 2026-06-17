@@ -18,18 +18,33 @@
             </div>
 
             <div class="mb-3">
-                <label for="title" class="form-label">Заголовок</label>
+                <label for="title" class="form-label">Заголовок (русский)</label>
                 <input type="text" name="title" id="title" class="form-control" value="{{ old('title', $page->title) }}" required>
             </div>
 
             <div class="mb-3">
-                <label for="content" class="form-label">Содержание</label>
+                <label for="title_en" class="form-label">Заголовок (английский)</label>
+                <input type="text" name="title_en" id="title_en" class="form-control" value="{{ old('title_en', $page->title_en) }}">
+            </div>
+
+            <div class="mb-3">
+                <label for="content" class="form-label">Содержание (русский, HTML)</label>
                 <textarea name="content" id="content" class="form-control tinymce" rows="15">{{ old('content', $page->content) }}</textarea>
             </div>
 
             <div class="mb-3">
-                <label for="meta_description" class="form-label">Meta Description</label>
+                <label for="content_en" class="form-label">Содержание (английский, HTML)</label>
+                <textarea name="content_en" id="content_en" class="form-control tinymce" rows="15">{{ old('content_en', $page->content_en) }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="meta_description" class="form-label">Meta Description (русский)</label>
                 <textarea name="meta_description" id="meta_description" class="form-control" rows="2">{{ old('meta_description', $page->meta_description) }}</textarea>
+            </div>
+
+            <div class="mb-3">
+                <label for="meta_description_en" class="form-label">Meta Description (английский)</label>
+                <textarea name="meta_description_en" id="meta_description_en" class="form-control" rows="2">{{ old('meta_description_en', $page->meta_description_en) }}</textarea>
             </div>
 
             <div class="mb-3 form-check">

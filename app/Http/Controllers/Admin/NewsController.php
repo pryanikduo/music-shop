@@ -24,8 +24,10 @@ class NewsController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
+            'title_en' => 'nullable|max:255',   // добавить
             'slug' => 'required|unique:news,slug|max:255',
             'content' => 'required',
+            'content_en' => 'nullable|string',  // добавить
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'published_at' => 'required|date',
             'is_active' => 'boolean',
@@ -53,8 +55,10 @@ class NewsController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
+            'title_en' => 'nullable|max:255',
             'slug' => 'required|max:255|unique:news,slug,' . $news->news_id . ',news_id',
             'content' => 'required',
+            'content_en' => 'nullable|string',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
             'published_at' => 'required|date',
             'is_active' => 'boolean',

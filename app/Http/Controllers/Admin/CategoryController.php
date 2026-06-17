@@ -25,6 +25,7 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'parent_id' => 'nullable|exists:categories,category_id',
             'name' => 'required|max:255',
+            'name_en' => 'nullable|max:255',    // добавить
             'slug' => 'required|unique:categories,slug|max:255',
             'type' => 'required|in:instruments,accessories',
             'sort_order' => 'integer',
@@ -46,6 +47,7 @@ class CategoryController extends Controller
         $validated = $request->validate([
             'parent_id' => 'nullable|exists:categories,category_id',
             'name' => 'required|max:255',
+            'name_en' => 'nullable|max:255',    // добавить
             'slug' => 'required|max:255|unique:categories,slug,' . $category->category_id . ',category_id',
             'type' => 'required|in:instruments,accessories',
             'sort_order' => 'integer',

@@ -24,8 +24,11 @@ class PageController extends Controller
         $validated = $request->validate([
             'slug' => 'required|unique:pages,slug|max:100',
             'title' => 'required|max:255',
+            'title_en' => 'nullable|max:255',
             'content' => 'required',
+            'content_en' => 'nullable|string',
             'meta_description' => 'nullable|max:255',
+            'meta_description_en' => 'nullable|max:255',
             'is_active' => 'boolean',
         ]);
         Page::create($validated);
@@ -42,8 +45,11 @@ class PageController extends Controller
         $validated = $request->validate([
             'slug' => 'required|max:100|unique:pages,slug,' . $page->page_id . ',page_id',
             'title' => 'required|max:255',
+            'title_en' => 'nullable|max:255',
             'content' => 'required',
+            'content_en' => 'nullable|string',
             'meta_description' => 'nullable|max:255',
+            'meta_description_en' => 'nullable|max:255',
             'is_active' => 'boolean',
         ]);
         $page->update($validated);

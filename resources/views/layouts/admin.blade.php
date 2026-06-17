@@ -32,9 +32,13 @@
                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.pages.index') }}"><i class="fas fa-file-alt"></i> Страницы</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.orders.index') }}"><i class="fas fa-shopping-cart"></i> Заказы</a></li>
                     <li class="nav-item"><a class="nav-link" href="{{ route('admin.settings.edit') }}"><i class="fas fa-cog"></i> Настройки</a></li>
-                    <li class="nav-item"><a class="nav-link" href="{{ route('main') }}"><i class="fas fa-home"></i> На сайт</a></li>
+                    @php
+                        // Получаем текущую локаль из сессии или используем ru по умолчанию
+                        $locale = session('locale', config('app.locale', 'ru'));
+                    @endphp
+                    <li class="nav-item"><a class="nav-link" href="{{ route('main', ['locale' => $locale]) }}"><i class="fas fa-home"></i> На сайт</a></li>
                     <li class="nav-item">
-                        <form method="POST" action="{{ route('logout') }}">
+                        <form method="POST" action="{{ route('logout', ['locale' => $locale]) }}">
                             @csrf
                             <button type="submit" class="btn nav-link" style="background:none; border:none; color:#ddd;"><i class="fas fa-sign-out-alt"></i> Выйти</button>
                         </form>

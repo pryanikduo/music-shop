@@ -26,8 +26,10 @@ class PromotionController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
+            'title_en' => 'nullable|max:255',
             'slug' => 'required|unique:promotions,slug|max:255',
             'description' => 'nullable|string',
+            'description_en' => 'nullable|string',
             'discount_percent' => 'nullable|integer|min:0|max:100',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',
@@ -65,8 +67,10 @@ class PromotionController extends Controller
     {
         $validated = $request->validate([
             'title' => 'required|max:255',
+            'title_en' => 'nullable|max:255',
             'slug' => 'required|max:255|unique:promotions,slug,' . $promotion->promotion_id . ',promotion_id',
             'description' => 'nullable|string',
+            'description_en' => 'nullable|string',
             'discount_percent' => 'nullable|integer|min:0|max:100',
             'start_date' => 'required|date',
             'end_date' => 'required|date|after_or_equal:start_date',

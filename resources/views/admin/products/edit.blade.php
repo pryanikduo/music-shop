@@ -17,10 +17,12 @@
                 </select>
             </div>
             <div class="mb-3"><label>Название</label><input type="text" name="name" class="form-control" value="{{ old('name', $product->name) }}" required></div>
+            <div class="mb-3"><label>Название (английский)</label><input type="text" name="name_en" class="form-control" value="{{ old('name_en', $product->name_en) }}"></div>
             <div class="mb-3"><label>Slug</label><input type="text" name="slug" class="form-control" value="{{ old('slug', $product->slug) }}" required></div>
             <div class="mb-3"><label>Цена</label><input type="number" step="0.01" name="price" class="form-control" value="{{ old('price', $product->price) }}" required></div>
             <div class="mb-3"><label>Остаток</label><input type="number" name="stock" class="form-control" value="{{ old('stock', $product->stock) }}" required></div>
             <div class="mb-3"><label>Описание</label><textarea name="description" class="form-control" rows="5">{{ old('description', $product->description) }}</textarea></div>
+            <div class="mb-3"><label>Описание (английский)</label><textarea name="description_en" class="form-control" rows="5">{{ old('description_en', $product->description_en) }}</textarea></div>
             <div class="mb-3"><label>Главное изображение</label><input type="file" name="main_image" class="form-control">
                 @if($product->main_image) <img src="{{ asset('storage/'.$product->main_image) }}" height="50"> @endif
             </div>

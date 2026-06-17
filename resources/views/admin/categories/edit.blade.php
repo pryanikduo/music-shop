@@ -17,6 +17,7 @@
                 </select>
             </div>
             <div class="mb-3"><label>Название</label><input type="text" name="name" class="form-control" value="{{ old('name', $category->name) }}" required></div>
+<div class="mb-3"><label>Название (английский)</label><input type="text" name="name_en" class="form-control" value="{{ old('name_en', $category->name_en) }}"></div>
             <div class="mb-3"><label>Slug</label><input type="text" name="slug" class="form-control" value="{{ old('slug', $category->slug) }}" required></div>
             <div class="mb-3"><label>Тип</label>
                 <select name="type" class="form-control">

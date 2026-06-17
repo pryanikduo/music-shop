@@ -7,8 +7,10 @@
         <form action="{{ route('admin.promotions.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="mb-3"><label>Название</label><input type="text" name="title" class="form-control" required></div>
+            <div class="mb-3"><label>Название (английский)</label><input type="text" name="title_en" class="form-control"></div>
             <div class="mb-3"><label>Slug</label><input type="text" name="slug" class="form-control" required></div>
             <div class="mb-3"><label>Описание (краткое)</label><textarea name="description" class="form-control" rows="3"></textarea></div>
+            <div class="mb-3"><label>Описание (английский)</label><textarea name="description_en" class="form-control" rows="3"></textarea></div>
             <div class="mb-3"><label>Скидка (%)</label><input type="number" name="discount_percent" class="form-control" min="0" max="100"></div>
             <div class="mb-3"><label>Дата начала</label><input type="date" name="start_date" class="form-control" required></div>
             <div class="mb-3"><label>Дата окончания</label><input type="date" name="end_date" class="form-control" required></div>

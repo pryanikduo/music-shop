@@ -8,8 +8,10 @@
             @csrf
             @method('PUT')
             <div class="mb-3"><label>Название</label><input type="text" name="title" class="form-control" value="{{ old('title', $promotion->title) }}" required></div>
+            <div class="mb-3"><label>Название (английский)</label><input type="text" name="title_en" class="form-control" value="{{ old('title_en', $promotion->title_en) }}"></div>
             <div class="mb-3"><label>Slug</label><input type="text" name="slug" class="form-control" value="{{ old('slug', $promotion->slug) }}" required></div>
             <div class="mb-3"><label>Описание (краткое)</label><textarea name="description" class="form-control" rows="3">{{ old('description', $promotion->description) }}</textarea></div>
+            <div class="mb-3"><label>Описание (английский)</label><textarea name="description_en" class="form-control" rows="3">{{ old('description_en', $promotion->description_en) }}</textarea></div>
             <div class="mb-3"><label>Скидка (%)</label><input type="number" name="discount_percent" class="form-control" value="{{ old('discount_percent', $promotion->discount_percent) }}" min="0" max="100"></div>
             <div class="mb-3"><label>Дата начала</label><input type="date" name="start_date" class="form-control" value="{{ old('start_date', $promotion->start_date->format('Y-m-d')) }}" required></div>
             <div class="mb-3"><label>Дата окончания</label><input type="date" name="end_date" class="form-control" value="{{ old('end_date', $promotion->end_date->format('Y-m-d')) }}" required></div>

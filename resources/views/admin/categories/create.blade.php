@@ -16,6 +16,7 @@
                 </select>
             </div>
             <div class="mb-3"><label>Название</label><input type="text" name="name" class="form-control" required></div>
+            <div class="mb-3"><label>Название (английский)</label><input type="text" name="name_en" class="form-control"></div>
             <div class="mb-3"><label>Slug</label><input type="text" name="slug" class="form-control" required></div>
             <div class="mb-3"><label>Тип</label>
                 <select name="type" class="form-control">

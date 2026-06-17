@@ -21,15 +21,27 @@
                 <label for="title" class="form-label">Заголовок страницы</label>
                 <input type="text" name="title" id="title" class="form-control" value="{{ old('title') }}" required>
             </div>
+            <div class="mb-3">
+                <label for="title_en" class="form-label">Заголовок (английский)</label>
+                <input type="text" name="title_en" id="title_en" class="form-control" value="{{ old('title_en') }}">
+            </div>
 
             <div class="mb-3">
-                <label for="content" class="form-label">Содержание страницы (HTML)</label>
+                <label for="content" class="form-label">Содержание (HTML)</label>
                 <textarea name="content" id="content" class="form-control tinymce" rows="15">{{ old('content') }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="content_en" class="form-label">Содержание (английский, HTML)</label>
+                <textarea name="content_en" id="content_en" class="form-control tinymce" rows="15">{{ old('content_en') }}</textarea>
             </div>
 
             <div class="mb-3">
                 <label for="meta_description" class="form-label">Meta Description (SEO)</label>
                 <textarea name="meta_description" id="meta_description" class="form-control" rows="2">{{ old('meta_description') }}</textarea>
+            </div>
+            <div class="mb-3">
+                <label for="meta_description_en" class="form-label">Meta Description (английский)</label>
+                <textarea name="meta_description_en" id="meta_description_en" class="form-control" rows="2">{{ old('meta_description_en') }}</textarea>
             </div>
 
             <div class="mb-3 form-check">
