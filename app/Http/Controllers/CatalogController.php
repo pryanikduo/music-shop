@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class CatalogController extends Controller
 {
-    public function catalog(Request $request)
+    public function catalog($locale, Request $request)
     {
         $query = Product::where('is_active', true)->with('category');
 

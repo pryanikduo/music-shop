@@ -1,10 +1,10 @@
 @extends('layouts.app')
 
-@section('title', 'Корзина')
+@section('title', __('messages.cart_title'))
 
 @section('content')
 <div class="cart-container">
-    <h1>Корзина</h1>
+    <h1>{{ __('messages.cart_title') }}</h1>
     <div id="cart-content">
         @include('cart.partials.cart_items', ['cart' => $cart, 'total' => $total])
     </div>
@@ -13,8 +13,9 @@
 
 @push('scripts')
 <script>
-    function updateCartItem(productId, quantity) {
-        fetch('/cart/update/' + productId, {
+    function updateCartItem(productId, quantity, updateUrl) {
+        if (!updateUrl) return;
+        fetch(updateUrl, {
             method: 'PATCH',
             headers: {
                 'Content-Type': 'application/json',
@@ -39,18 +40,19 @@
                     if (row) row.remove();
                 }
                 if (data.cart_count === 0) {
-                    document.getElementById('cart-content').innerHTML = '<div class="cart-empty-message"><p>Ваша корзина пуста. <a href="{{ route("catalog") }}" class="gold-link">Перейти в каталог</a></p></div>';
+                    document.getElementById('cart-content').innerHTML = `<div class="cart-empty-message"><p>{{ __('messages.cart_empty') }} <a href="{{ route('catalog', ['locale' => app()->getLocale()]) }}" class="gold-link">{{ __('messages.go_to_catalog') }}</a></p></div>`;
                 }
             } else {
-                alert('Ошибка: ' + (data.error || 'Не удалось обновить'));
+                alert('{{ __('messages.update_error') }}');
             }
         })
         .catch(error => console.error('Error:', error));
     }
 
-    function removeCartItem(productId) {
-        if (!confirm('Удалить все товары этого типа из корзины?')) return;
-        fetch('/cart/remove/' + productId, {
+    function removeCartItem(productId, removeUrl) {
+        if (!removeUrl) return;
+        if (!confirm('{{ __('messages.remove_confirm') }}')) return;
+        fetch(removeUrl, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json',
@@ -70,10 +72,10 @@
                     cartCountElem.style.display = data.cart_count == 0 ? 'none' : '';
                 }
                 if (data.cart_empty) {
-                    document.getElementById('cart-content').innerHTML = '<div class="cart-empty-message"><p>Ваша корзина пуста. <a href="{{ route("catalog") }}" class="gold-link">Перейти в каталог</a></p></div>';
+                    document.getElementById('cart-content').innerHTML = `<div class="cart-empty-message"><p>{{ __('messages.cart_empty') }} <a href="{{ route('catalog', ['locale' => app()->getLocale()]) }}" class="gold-link">{{ __('messages.go_to_catalog') }}</a></p></div>`;
                 }
             } else {
-                alert('Ошибка удаления');
+                alert('{{ __('messages.remove_error') }}');
             }
         })
         .catch(error => console.error('Error:', error));
@@ -83,13 +85,14 @@
         document.body.addEventListener('change', function(e) {
             if (e.target && e.target.classList.contains('cart-quantity-input')) {
                 let productId = e.target.getAttribute('data-product-id');
+                let updateUrl = e.target.getAttribute('data-update-url');
                 let quantity = parseInt(e.target.value, 10);
                 if (isNaN(quantity)) quantity = 1;
                 let max = parseInt(e.target.getAttribute('max'), 10);
                 if (quantity < 1) quantity = 1;
                 if (quantity > max) quantity = max;
                 e.target.value = quantity;
-                updateCartItem(productId, quantity);
+                updateCartItem(productId, quantity, updateUrl);
             }
         });
 
@@ -97,7 +100,8 @@
             if (e.target && e.target.classList.contains('remove-all-btn')) {
                 e.preventDefault();
                 let productId = e.target.getAttribute('data-product-id');
-                if (productId) removeCartItem(productId);
+                let removeUrl = e.target.getAttribute('data-remove-url');
+                if (productId && removeUrl) removeCartItem(productId, removeUrl);
             }
         });
     });

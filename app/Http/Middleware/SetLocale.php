@@ -9,11 +9,14 @@ class SetLocale
 {
     public function handle(Request $request, Closure $next)
     {
-        $locale = session('locale', config('app.locale'));
-        if (!in_array($locale, ['ru', 'en'])) {
-            $locale = config('app.locale');
+        $locale = $request->route('locale');
+        if (in_array($locale, ['ru', 'en'])) {
+            app()->setLocale($locale);
+            session()->put('locale', $locale);
+        } else {
+            app()->setLocale(config('app.fallback_locale'));
         }
-        app()->setLocale($locale);
+        
         return $next($request);
     }
 }

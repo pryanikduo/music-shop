@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 
 class ContactController extends Controller
 {
-    public function store(Request $request)
+    public function store($locale, Request $request)
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',

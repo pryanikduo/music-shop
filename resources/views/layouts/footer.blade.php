@@ -1,37 +1,37 @@
 <footer class="site-footer">
     <div class="footer-container">
         <div class="footer-col">
-            <h3>О нас</h3>
+            <h3>{{ __('messages.about_us_footer') }}</h3>
             <ul>
-                <li><a href="{{ route('about') }}">История</a></li>
-                <li><a href="{{ route('about') }}">Контакты</a></li>
-                <li><a href="{{ route('about') }}">Схема проезда</a></li>
+                <li><a href="{{ route('about', ['locale' => app()->getLocale()]) }}">{{ __('messages.history') }}</a></li>
+                <li><a href="{{ route('about', ['locale' => app()->getLocale()]) }}">{{ __('messages.contacts_footer') }}</a></li>
+                <li><a href="{{ route('about', ['locale' => app()->getLocale()]) }}">{{ __('messages.map_footer') }}</a></li>
             </ul>
         </div>
         <div class="footer-col">
-            <h3>Покупателям</h3>
+            <h3>{{ __('messages.for_customers') }}</h3>
             <ul>
-                <li><a href="#">Доставка</a></li>
-                <li><a href="{{ route('about') }}">Тех. поддержка</a></li>
-                <li><a href="{{ route('about') }}">Обратная связь</a></li>
+                <li><a href="#">{{ __('messages.delivery') }}</a></li>
+                <li><a href="{{ route('about', ['locale' => app()->getLocale()]) }}">{{ __('messages.support_footer') }}</a></li>
+                <li><a href="{{ route('about', ['locale' => app()->getLocale()]) }}">{{ __('messages.feedback_footer') }}</a></li>
             </ul>
         </div>
         <div class="footer-col">
-            <h3>Популярное</h3>
+            <h3>{{ __('messages.popular') }}</h3>
             <ul>
-                <li><a href="{{ route('catalog', ['search' => 'гитара']) }}">Гитары</a></li>
-                <li><a href="{{ route('catalog', ['search' => 'пианино']) }}">Пианино</a></li>
-                <li><a href="{{ route('catalog', ['search' => 'аксессуары']) }}">Аксессуары</a></li>
+                <li><a href="{{ route('catalog', ['locale' => app()->getLocale(), 'search' => 'гитара']) }}">{{ __('messages.guitars') }}</a></li>
+                <li><a href="{{ route('catalog', ['locale' => app()->getLocale(), 'search' => 'пианино']) }}">{{ __('messages.pianos') }}</a></li>
+                <li><a href="{{ route('catalog', ['locale' => app()->getLocale(), 'search' => 'аксессуары']) }}">{{ __('messages.accessories') }}</a></li>
             </ul>
         </div>
         <div class="footer-col">
-            <h3>Контакты</h3>
+            <h3>{{ __('messages.contacts_footer') }}</h3>
             <ul>
-                <li><p><strong>Телефон:</strong> {{ $contactPhone ?? '+7 (978) 123 45 67' }}</p></li>
-                <li><p><strong>Email:</strong> {{ $contactEmail ?? 'nota@mail.ru' }}</p></li>
-                <li><p><strong>Адрес:</strong> {{ $contactAddress ?? 'г. Москва, ул. Университетская, 33' }}</p></li>
+                <li><p><strong>{{ __('messages.phone_footer') }}:</strong> {{ $contactPhone ?? '+7 (978) 123 45 67' }}</p></li>
+                <li><p><strong>{{ __('messages.email_footer') }}:</strong> {{ $contactEmail ?? 'nota@mail.ru' }}</p></li>
+                <li><p><strong>{{ __('messages.address_footer') }}:</strong> {{ $contactAddress ?? 'г. Москва, ул. Университетская, 33' }}</p></li>
                 <li class="social-media">
-                    <p>Наши соцсети:</p>
+                    <p>{{ __('messages.social_media') }}</p>
                     @if($socialVk)
                         <a href="{{ $socialVk }}" target="_blank" rel="noopener noreferrer">
                             <img src="{{ asset('img/vk.svg') }}" alt="VK">
@@ -52,7 +52,7 @@
         </div>
     </div>
     <div class="footer-bottom">
-        <p>© {{ date('Y') }} Все права защищены</p>
-        <p><a href="{{ route('sitemap') }}">Карта сайта</a></p>
+        <p>© {{ date('Y') }} {{ __('messages.all_rights_reserved') }}</p>
+        <p><a href="{{ route('sitemap', ['locale' => app()->getLocale()]) }}">{{ __('messages.sitemap_footer') }}</a></p>
     </div>
 </footer>

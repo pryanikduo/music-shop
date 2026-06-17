@@ -22,7 +22,8 @@ class CartController extends Controller
         return view('cart.index', compact('cart', 'total'));
     }
 
-    public function add(Request $request, $productId)
+    // Исправлено: добавлен $locale первым
+    public function add($locale, Request $request, $productId)
     {
         $product = Product::find($productId);
         if (!$product) {
@@ -42,42 +43,44 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Товар добавлен в корзину');
     }
 
-    public function update(Request $request, $productId)
-{
-    $product = Product::find($productId);
-    if (!$product) {
-        return response()->json(['error' => 'Товар не найден'], 404);
+    // Исправлено: добавлен $locale первым
+    public function update($locale, Request $request, $productId)
+    {
+        $product = Product::find($productId);
+        if (!$product) {
+            return response()->json(['error' => 'Товар не найден'], 404);
+        }
+
+        $quantity = (int) $request->input('quantity', 1);
+        if ($quantity < 1) $quantity = 1;
+        if ($quantity > $product->stock) $quantity = $product->stock;
+
+        $this->cartService->updateQuantity($product, $quantity);
+
+        $cart = $this->cartService->getCart();
+        $total = $this->cartService->getTotal();
+        $updatedItem = $cart->firstWhere('product_id', $product->product_id);
+        $itemTotal = $updatedItem ? $updatedItem->quantity * $updatedItem->product->price : 0;
+
+        if ($request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'item_total' => number_format($itemTotal, 2),
+                'total' => number_format($total, 2),
+                'cart_count' => $this->cartService->getCartCount(),
+                'quantity' => $updatedItem ? $updatedItem->quantity : 0,
+                'stock' => $product->stock,
+                'product_id' => $product->product_id,
+            ]);
+        }
+
+        // Исправлено: редирект с передачей locale
+        return redirect()->route('cart.index', ['locale' => $locale])
+                         ->with('success', 'Количество обновлено');
     }
 
-    $quantity = (int) $request->input('quantity', 1);
-    // Ограничиваем количество
-    if ($quantity < 1) $quantity = 1;
-    if ($quantity > $product->stock) $quantity = $product->stock;
-
-    $this->cartService->updateQuantity($product, $quantity);
-
-    // Получаем обновлённую корзину
-    $cart = $this->cartService->getCart();
-    $total = $this->cartService->getTotal();
-    $updatedItem = $cart->firstWhere('product_id', $product->product_id);
-    $itemTotal = $updatedItem ? $updatedItem->quantity * $updatedItem->product->price : 0;
-
-    if ($request->ajax()) {
-        return response()->json([
-            'success' => true,
-            'item_total' => number_format($itemTotal, 2),
-            'total' => number_format($total, 2),
-            'cart_count' => $this->cartService->getCartCount(),
-            'quantity' => $updatedItem ? $updatedItem->quantity : 0,
-            'stock' => $product->stock,
-            'product_id' => $product->product_id,
-        ]);
-    }
-
-    return redirect()->route('cart.index')->with('success', 'Количество обновлено');
-}
-
-    public function remove(Request $request, $productId)
+    // Исправлено: добавлен $locale первым
+    public function remove($locale, Request $request, $productId)
     {
         $product = Product::find($productId);
         if ($product) {
@@ -96,6 +99,8 @@ class CartController extends Controller
             ]);
         }
 
-        return redirect()->route('cart.index')->with('success', 'Товар удалён');
+        // Исправлено: редирект с передачей locale
+        return redirect()->route('cart.index', ['locale' => $locale])
+                         ->with('success', 'Товар удалён');
     }
 }

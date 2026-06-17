@@ -24,7 +24,7 @@
                 <div class="news-full-content" style="font-size: 1.1rem; line-height: 1.6;">
                     {!! $news->content !!}
                 </div>
-                <a href="{{ route('news') }}" class="btn mt-4" style="background-color: #fede67; color: #323232;">← Назад к новостям</a>
+                <a href="{{ route('news', ['locale' => app()->getLocale()]) }}" class="btn mt-4" style="background-color: #fede67; color: #323232;">← {{ __('messages.back_to_news') }}</a>
             </div>
         </div>
     </div>

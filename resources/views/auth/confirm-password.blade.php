@@ -3,7 +3,7 @@
         {{ __('Это защищенная область приложения. Пожалуйста, подтвердите свой пароль, прежде чем продолжить.') }}
     </div>
 
-    <form method="POST" action="{{ route('password.confirm') }}">
+    <form method="POST" action="{{ route('password.confirm', ['locale' => app()->getLocale()]) }}">
         @csrf
 
         <!-- Password -->

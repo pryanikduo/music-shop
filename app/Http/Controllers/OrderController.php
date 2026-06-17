@@ -17,17 +17,19 @@ class OrderController extends Controller
         $this->cartService = $cartService;
     }
 
-    public function checkout()
+    // Добавлен $locale
+    public function checkout($locale)
     {
         $cart = $this->cartService->getCart();
         if ($cart->isEmpty()) {
-            return redirect()->route('cart.index')->with('error', 'Корзина пуста');
+            return redirect()->route('cart.index', ['locale' => $locale])->with('error', 'Корзина пуста');
         }
         $total = $this->cartService->getTotal();
         return view('checkout', compact('cart', 'total'));
     }
 
-    public function store(Request $request)
+    // Добавлен $locale первым
+    public function store($locale, Request $request)
     {
         $validated = $request->validate([
             'delivery_address' => 'required|string|max:500',
@@ -40,7 +42,7 @@ class OrderController extends Controller
 
         $cart = $this->cartService->getCart();
         if ($cart->isEmpty()) {
-            return redirect()->route('cart.index')->with('error', 'Корзина пуста');
+            return redirect()->route('cart.index', ['locale' => $locale])->with('error', 'Корзина пуста');
         }
 
         $total = $this->cartService->getTotal();
@@ -74,7 +76,8 @@ class OrderController extends Controller
 
             DB::commit();
 
-            return redirect()->route('cart.index')->with('success', "Заказ №{$orderNumber} успешно оформлен!");
+            return redirect()->route('cart.index', ['locale' => $locale])
+                             ->with('success', "Заказ №{$orderNumber} успешно оформлен!");
         } catch (\Exception $e) {
             DB::rollBack();
             return back()->with('error', 'Ошибка при оформлении заказа. Попробуйте позже.');

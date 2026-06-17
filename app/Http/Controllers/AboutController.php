@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class AboutController extends Controller
 {
-    public function about()
+    public function about($locale)
     {
         // Получаем страницу с историей
         $page = Page::where('slug', 'about')->where('is_active', true)->firstOrFail();

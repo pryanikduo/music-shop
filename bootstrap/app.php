@@ -11,13 +11,18 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-    $middleware->web(append: [
-        \App\Http\Middleware\SetLocale::class,
-    ]);
-    $middleware->alias([
-        'admin' => \App\Http\Middleware\AdminMiddleware::class,
-    ]);
-})
+        // Регистрируем алиасы для middleware
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\AdminMiddleware::class,
+            'setlocale' => \App\Http\Middleware\SetLocale::class, // <-- ДОБАВИТЬ ЭТУ СТРОКУ
+        ]);
+
+        // Если вы хотите, чтобы SetLocale применялся ко всем маршрутам (включая административные), 
+        // можно добавить в группу web, но в вашем случае это не нужно, так как вы явно указываете его в маршрутах.
+        // $middleware->web(append: [
+        //     \App\Http\Middleware\SetLocale::class,
+        // ]);
+    })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
     })->create();
