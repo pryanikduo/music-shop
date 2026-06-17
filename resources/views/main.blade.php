@@ -22,21 +22,21 @@
                 </div>
                 <div class="col-12 col-lg-6 m-0 m-auto pt-5">
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                        <ol class="carousel-indicators">
+                        <ul class="carousel-indicators">
                             @foreach($sliderPromotions as $index => $promo)
                                 <li data-bs-target="#carouselExampleControls" data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}"></li>
                             @endforeach
-                        </ol>
+                        </ul>
                         <div class="carousel-inner">
                             @forelse($sliderPromotions as $index => $promo)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                                     <img src="{{ asset($promo->image ?? 'images/products/Home_1.png') }}" class="d-block w-100" alt="{{ $promo->title }}">
-                                    <div class="carousel-caption d-none d-md-block">
+                                    <!-- <div class="carousel-caption d-none d-md-block">
                                         <h5>{{ $promo->title }}</h5>
                                         @if($promo->discount_percent)
                                             <p>Скидка {{ $promo->discount_percent }}%</p>
                                         @endif
-                                    </div>
+                                    </div> -->
                                 </div>
                             @empty
                                 <div class="carousel-item active">
