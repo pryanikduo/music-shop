@@ -15,10 +15,29 @@
             <div class="col-md-6">
                 <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
-                        @php $images = $product->product_images->isEmpty() ? collect([(object)['image_path' => $product->main_image]]) : $product->product_images; @endphp
+                        @php
+                            $images = $product->product_images->isEmpty() 
+                                ? collect([(object)['image_path' => $product->main_image]]) 
+                                : $product->product_images;
+                        @endphp
                         @foreach($images as $index => $image)
                             <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                <img src="{{ asset('img/' . $image->image_path ?? $product->main_image) }}" class="d-block w-100" alt="{{ $product->name }}">
+                                @php
+                                    $imagePath = $image->image_path ?? $product->main_image ?? null;
+                                    if ($imagePath) {
+                                        if (str_starts_with($imagePath, 'img/')) {
+                                            $imageUrl = asset($imagePath);
+                                        } elseif (str_starts_with($imagePath, 'products/') || str_starts_with($imagePath, 'storage/')) {
+                                            $imageUrl = Storage::url($imagePath);
+                                        } else {
+                                            // Старый формат: просто имя файла, лежит в public/img
+                                            $imageUrl = asset('img/' . $imagePath);
+                                        }
+                                    } else {
+                                        $imageUrl = asset('img/default_product.jpg');
+                                    }
+                                @endphp
+                                <img src="{{ $imageUrl }}" class="d-block w-100" alt="{{ $product->name }}">
                             </div>
                         @endforeach
                     </div>
@@ -80,7 +99,22 @@
             @foreach($relatedProducts as $rel)
                 <div class="col-md-3 mb-4">
                     <div class="card h-100">
-                        <img src="{{ asset('img/' . $rel->main_image ?? 'img/default_product.jpg') }}" class="card-img-top" alt="{{ $rel->name }}">
+                        @php
+                            $imagePath = $rel->main_image ?? null;
+                            if ($imagePath) {
+                                if (str_starts_with($imagePath, 'img/')) {
+                                    $imageUrl = asset($imagePath);
+                                } elseif (str_starts_with($imagePath, 'products/') || str_starts_with($imagePath, 'storage/')) {
+                                    $imageUrl = Storage::url($imagePath);
+                                } else {
+                                    // Старый формат: просто имя файла, лежит в public/img
+                                    $imageUrl = asset('img/' . $imagePath);
+                                }
+                            } else {
+                                $imageUrl = asset('img/default_product.jpg');
+                            }
+                        @endphp
+                        <img src="{{ $imageUrl }}" class="card-img-top" alt="{{ $rel->name }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ $rel->name }}</h5>
                             <p class="card-text">{{ number_format($rel->price, 0, ',', ' ') }} ₽</p>

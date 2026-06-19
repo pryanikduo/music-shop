@@ -60,6 +60,6 @@ class Promotion extends Model
     // Остальные связи без изменений
     public function products()
     {
-        return $this->belongsToMany(Product::class, 'promotion_product');
+        return $this->belongsToMany(Product::class, 'promotion_product', 'promotion_id', 'product_id');
     }
 }

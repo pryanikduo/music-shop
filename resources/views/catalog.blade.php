@@ -46,12 +46,24 @@
         @forelse($products as $product)
             <a href="{{ route('product.show', ['locale' => app()->getLocale(), 'slug' => $product->slug]) }}" class="product-card-link" style="text-decoration: none; color: inherit; display: block;">
                 <div class="product-card">
+                    @php
+                        $imagePath = $product->main_image ?? null;
+                        if ($imagePath) {
+                            if (str_starts_with($imagePath, 'img/')) {
+                                $imageUrl = asset($imagePath);
+                            } elseif (str_starts_with($imagePath, 'products/') || str_starts_with($imagePath, 'storage/')) {
+                                $imageUrl = Storage::url($imagePath);
+                            } else {
+                                // Старый формат: просто имя файла, лежит в public/img
+                                $imageUrl = asset('img/' . $imagePath);
+                            }
+                        } else {
+                            $imageUrl = asset('img/default_product.jpg');
+                        }
+                    @endphp
                     <div class="product-image">
-                        @if($product->main_image)
-                            <img src="{{ asset('img/' . $product->main_image) }}" alt="{{ $product->name }}">
-                        @else
-                            <div style="width: 100%; height: 100%; background: #eee; display: flex; align-items: center; justify-content: center;">{{ __('messages.no_image') }}</div>
-                        @endif
+                        <img src="{{ $imageUrl }}" alt="{{ $product->name }}">
+                        <!-- <div style="width: 100%; height: 100%; background: #eee; display: flex; align-items: center; justify-content: center;">{{ __('messages.no_image') }}</div> -->
                     </div>
                     <h3>{{ $product->name }}</h3>
                     @if($product->has_discount)

@@ -16,12 +16,18 @@
                 <li><a href="{{ route('about', ['locale' => app()->getLocale()]) }}">{{ __('messages.feedback_footer') }}</a></li>
             </ul>
         </div>
-        <div class="footer-col">
+       <div class="footer-col">
             <h3>{{ __('messages.popular') }}</h3>
             <ul>
-                <li><a href="{{ route('catalog', ['locale' => app()->getLocale(), 'search' => 'гитара']) }}">{{ __('messages.guitars') }}</a></li>
-                <li><a href="{{ route('catalog', ['locale' => app()->getLocale(), 'search' => 'пианино']) }}">{{ __('messages.pianos') }}</a></li>
-                <li><a href="{{ route('catalog', ['locale' => app()->getLocale(), 'search' => 'аксессуары']) }}">{{ __('messages.accessories') }}</a></li>
+                @forelse($popularCategories as $category)
+                    <li>
+                        <a href="{{ route('catalog', ['locale' => app()->getLocale(), 'category' => $category->category_id]) }}">
+                            {{ $category->name }}
+                        </a>
+                    </li>
+                @empty
+                    <li>{{ __('messages.no_popular_categories') }}</li>
+                @endforelse
             </ul>
         </div>
         <div class="footer-col">

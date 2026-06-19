@@ -15,7 +15,7 @@
                     <td>{{ $msg->phone }}</td>
                     <td>{{ Str::limit($msg->message, 50) }}</td>
                     <td>{{ $msg->is_read ? 'Да' : 'Нет' }}</td>
-                    <td>{{ $msg->created_at->format('d.m.Y H:i') }}</td>
+                    <td>{{ $msg->created_at->format('d.m.Y') }}</td>
                     <td>
                         <a href="{{ route('admin.contact-messages.show', $msg) }}" class="btn btn-sm btn-info">Просмотр</a>
                         <form action="{{ route('admin.contact-messages.destroy', $msg) }}" method="POST" class="d-inline">
