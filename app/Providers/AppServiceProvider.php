@@ -10,6 +10,7 @@ use App\Services\CartService;
 use Illuminate\Support\Facades\View;
 use App\Models\Category;    
 use App\Models\Setting;    
+use Illuminate\Support\Facades\Cache;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -46,6 +47,16 @@ class AppServiceProvider extends ServiceProvider
         View::composer('*', function ($view) {
             $cartService = app(CartService::class);
             $view->with('cartCount', $cartService->getCartCount());
+        });
+        View::composer('*', function ($view) {
+            $popularCategories = Category::withCount(['products' => function ($query) {
+                $query->where('is_active', true);
+            }])
+            ->having('products_count', '>', 0)
+            ->orderBy('products_count', 'desc')
+            ->limit(3)
+            ->get();
+            $view->with('popularCategories', $popularCategories);
         });
     }
 }
