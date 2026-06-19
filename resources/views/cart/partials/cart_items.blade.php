@@ -7,11 +7,22 @@
         @foreach($cart as $item)
             <div class="cart-item" id="cart-item-{{ $item->product->product_id }}">
                 <div class="cart-item-image">
-                    @if($item->product->main_image)
-                        <img src="{{ asset('img/' . $item->product->main_image) }}" alt="{{ $item->product->name }}">
-                    @else
-                        <div class="no-image-placeholder">{{ __('messages.no_image') }}</div>
-                    @endif
+                    @php
+                        $imagePath = $item->product->main_image ?? null;
+                        if ($imagePath) {
+                                if (str_starts_with($imagePath, 'img/')) {
+                                    $imageUrl = asset($imagePath);
+                                } elseif (str_starts_with($imagePath, 'products/') || str_starts_with($imagePath, 'storage/')) {
+                                    $imageUrl = Storage::url($imagePath);
+                                } else {
+                                    // Старый формат: просто имя файла, лежит в public/img
+                                    $imageUrl = asset('img/' . $imagePath);
+                                }
+                            } else {
+                                $imageUrl = asset('img/default_product.jpg');
+                            }
+                        @endphp
+                    <img src="{{ $imageUrl }}" alt="{{ $item->product->name }}">
                 </div>
                 <div class="cart-item-info">
                     <h3>{{ $item->product->name }}</h3>
@@ -48,4 +59,3 @@
         @endauth
     </div>
 @endif
-

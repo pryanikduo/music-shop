@@ -1,7 +1,5 @@
 @include('layouts.head')
-
 @section('title', __('messages.home_title'))
-
 @include('layouts.menu')
 <body>
     <script src="{{ asset('js/menu.js') }}"></script>
@@ -30,14 +28,24 @@
                         <div class="carousel-inner">
                             @forelse($sliderPromotions as $index => $promo)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
-                                    <img src="{{ asset($promo->image ?? 'images/products/Home_1.png') }}" class="d-block w-100" alt="{{ $promo->title }}">
+                                    @php
+                                        $imagePath = $promo->image ?? null;
+                                        if ($imagePath && str_starts_with($imagePath, 'img/')) {
+                                            $imageUrl = asset($imagePath);
+                                        } elseif ($imagePath) {
+                                            $imageUrl = Storage::url($imagePath);
+                                        } else {
+                                            $imageUrl = asset('images/products/Home_1.png');
+                                        }
+                                    @endphp
+                                    <img src="{{ $imageUrl }}" class="d-block w-100" alt="{{ $promo->title }}">
                                 </div>
                             @empty
                                 <div class="carousel-item active">
-                                    <img src="images/products/Home_2.png" class="d-block w-100" alt="Slide 1">
+                                    <img src="{{ asset('images/products/Home_2.png') }}" class="d-block w-100" alt="Slide 1">
                                 </div>
                                 <div class="carousel-item">
-                                    <img src="images/products/Home_1.png" class="d-block w-100" alt="Slide 2">
+                                    <img src="{{ asset('images/products/Home_1.png') }}" class="d-block w-100" alt="Slide 2">
                                 </div>
                             @endforelse
                         </div>
@@ -68,7 +76,22 @@
                                     <a href="{{ route('product.show', ['locale' => app()->getLocale(), 'slug' => $product->slug]) }}" type="button">{{ __('messages.open_button') }}</a>
                                 </div>
                             </div>
-                            <img src="{{ asset('img/' . $product->main_image ?? 'images/products/N_C_3.png') }}" alt="" class="card-image">
+                            @php
+                                $imagePath = $product->main_image ?? null;
+                                if ($imagePath) {
+                                    if (str_starts_with($imagePath, 'img/')) {
+                                        $imageUrl = asset($imagePath);
+                                    } elseif (str_starts_with($imagePath, 'products/') || str_starts_with($imagePath, 'storage/')) {
+                                        $imageUrl = Storage::url($imagePath);
+                                    } else {
+                                        // Старый формат: просто имя файла, лежит в public/img
+                                        $imageUrl = asset('img/' . $imagePath);
+                                    }
+                                } else {
+                                    $imageUrl = asset('img/default_product.jpg');
+                                }
+                            @endphp
+                            <img src="{{ $imageUrl }}" alt="{{ $product->name }}" class="card-image">
                         </div>
                     </div>
                 @endforeach
@@ -92,7 +115,22 @@
                                 </span>
                             </div>
                             <div class="img_conta">
-                                <img class="card-img-top" src="{{ asset('img/' . $product->main_image ?? 'images/products/Sellers_1.png') }}" alt="{{ $product->name }}">
+                                @php
+                                    $imagePath = $product->main_image ?? null;
+                                    if ($imagePath) {
+                                        if (str_starts_with($imagePath, 'img/')) {
+                                            $imageUrl = asset($imagePath);
+                                        } elseif (str_starts_with($imagePath, 'products/') || str_starts_with($imagePath, 'storage/')) {
+                                            $imageUrl = Storage::url($imagePath);
+                                        } else {
+                                            // Старый формат: просто имя файла, лежит в public/img
+                                            $imageUrl = asset('img/' . $imagePath);
+                                        }
+                                    } else {
+                                        $imageUrl = asset('img/default_product.jpg');
+                                    }
+                                @endphp
+                                <img class="card-img-top" src="{{ $imageUrl }}" alt="{{ $product->name }}">
                             </div>
                             <div class="card-body d-flex justify-content-between">
                                 <div>
