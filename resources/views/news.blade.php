@@ -24,7 +24,17 @@
                         <div class="news_date">
                             <h4>{{ \Carbon\Carbon::parse($item->published_at)->format('d m Y') }}</h4>
                         </div>
-                        <img class="card-img-top" src="{{ asset($item->image ?? 'img/default_news.jpg') }}" alt="{{ $item->title }}">
+                        @php
+                            $imagePath = $item->image;
+                            if ($imagePath && str_starts_with($imagePath, 'img/')) {
+                                $imageUrl = asset($imagePath);
+                            } elseif ($imagePath) {
+                                $imageUrl = Storage::url($imagePath);
+                            } else {
+                                $imageUrl = asset('img/default_news.jpg');
+                            }
+                        @endphp
+                        <img class="card-img-top" src="{{ $imageUrl }}" alt="{{ $item->title }}">
                         <div class="card-body">
                             <h3 class="card-title">{{ $item->title }}</h3>
                             <p class="card-text my-3">{{ Str::limit(strip_tags($item->content), 120) }}</p>

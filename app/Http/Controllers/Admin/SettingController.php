@@ -18,6 +18,9 @@ class SettingController extends Controller
     {
         $data = $request->except('_token', '_method');
         foreach ($data as $key => $value) {
+            if (is_null($value)) {
+                $value = '';
+            }
             Setting::updateOrCreate(['key' => $key], ['value' => $value, 'type' => 'string']);
         }
         return redirect()->back()->with('success', 'Настройки сохранены');

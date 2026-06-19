@@ -18,9 +18,17 @@
                     <ion-icon name="calendar-outline"></ion-icon> 
                     {{ \Carbon\Carbon::parse($news->published_at)->format('d.m.Y') }}
                 </div>
-                @if($news->image)
-                    <img src="{{ asset($news->image) }}" class="img-fluid rounded mb-4" alt="{{ $news->title }}">
-                @endif
+                @php
+                    $imagePath = $news->image;
+                    if ($imagePath && str_starts_with($imagePath, 'img/')) {
+                        $imageUrl = asset($imagePath);
+                    } elseif ($imagePath) {
+                        $imageUrl = Storage::url($imagePath);
+                    } else {
+                        $imageUrl = asset('img/default_news.jpg');
+                    }
+                @endphp
+                <img src="{{ $imageUrl }}" class="img-fluid rounded mb-4" alt="{{ $news->title }}">
                 <div class="news-full-content" style="font-size: 1.1rem; line-height: 1.6;">
                     {!! $news->content !!}
                 </div>
