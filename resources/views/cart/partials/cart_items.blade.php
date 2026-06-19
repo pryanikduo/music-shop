@@ -49,6 +49,3 @@
     </div>
 @endif
 
-<style>
-    /* ваши стили */
-</style>
