@@ -1,6 +1,6 @@
 @include('layouts.head')
 
-@section('title', 'Главная страница')
+@section('title', __('messages.home_title'))
 
 @include('layouts.menu')
 <body>
@@ -16,27 +16,21 @@
             <div class="row">
                 <div class="col-12 col-lg-5 m-0 m-auto pt-5 ms-lg-5">
                     <h2><i>2026</i></h2>
-                    <h1 class="mx-2">Горячие предложения</h1>
-                    <h4 class="mt-4 mb-2">Скидки до 20%</h4>
-                    <a href="{{ route('catalog') }}" type="button" class="my-1 mt-5">Открыть</a>
+                    <h1 class="mx-2">{{ __('messages.hot_offers') }}</h1>
+                    <h4 class="mt-4 mb-2">{{ __('messages.discount_up_to') }}</h4>
+                    <a href="{{ route('catalog', ['locale' => app()->getLocale()]) }}" type="button" class="my-1 mt-5">{{ __('messages.open_button') }}</a>
                 </div>
                 <div class="col-12 col-lg-6 m-0 m-auto pt-5">
                     <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
-                        <ol class="carousel-indicators">
+                        <ul class="carousel-indicators">
                             @foreach($sliderPromotions as $index => $promo)
                                 <li data-bs-target="#carouselExampleControls" data-bs-slide-to="{{ $index }}" class="{{ $index == 0 ? 'active' : '' }}"></li>
                             @endforeach
-                        </ol>
+                        </ul>
                         <div class="carousel-inner">
                             @forelse($sliderPromotions as $index => $promo)
                                 <div class="carousel-item {{ $index == 0 ? 'active' : '' }}">
                                     <img src="{{ asset($promo->image ?? 'images/products/Home_1.png') }}" class="d-block w-100" alt="{{ $promo->title }}">
-                                    <div class="carousel-caption d-none d-md-block">
-                                        <h5>{{ $promo->title }}</h5>
-                                        @if($promo->discount_percent)
-                                            <p>Скидка {{ $promo->discount_percent }}%</p>
-                                        @endif
-                                    </div>
                                 </div>
                             @empty
                                 <div class="carousel-item active">
@@ -60,18 +54,18 @@
     </section>
     <!-- End Home -->
 
-    <!-- start new collection (динамические товары) -->
+    <!-- start new collection -->
     <section class="collection" id="collection">
         <div class="container py-5">
             <div class="row">
-                <h1 class="mt-5">Новые товары</h1>
+                <h1 class="mt-5">{{ __('messages.new_products') }}</h1>
                 @foreach($newProducts as $product)
                     <div class="col-10 col-lg-3 m-0 m-auto sho_card my-5">
                         <div class="card">
                             <div class="card-text">
                                 <h3 class="card-title mt-3 ms-3">{{ $product->name }}</h3>
                                 <div class="btn_sty">
-                                    <a href="{{ route('product.show', $product->slug) }}" type="button">Открыть</a>
+                                    <a href="{{ route('product.show', ['locale' => app()->getLocale(), 'slug' => $product->slug]) }}" type="button">{{ __('messages.open_button') }}</a>
                                 </div>
                             </div>
                             <img src="{{ asset('img/' . $product->main_image ?? 'images/products/N_C_3.png') }}" alt="" class="card-image">
@@ -83,11 +77,11 @@
     </section>
     <!-- end new collection -->
 
-    <!-- start best sellers (топ продаж) -->
+    <!-- start best sellers -->
     <section class="sellers" id="sellers">
         <div class="container py-5">
             <div class="row">
-                <h1 class="mt-5">Топ продаж</h1>
+                <h1 class="mt-5">{{ __('messages.top_sellers') }}</h1>
                 @foreach($topProducts as $product)
                     <div class="col-6 col-lg-3 my-5 m-0 m-auto">
                         <div class="card">
@@ -105,7 +99,9 @@
                                     <h5 class="card-title">{{ $product->name }}</h5>
                                     <p class="card-text">{{ number_format($product->price, 0, ',', ' ') }} ₽</p>
                                 </div>
-                                <div class="mt-2 bag_col add-to-cart" data-product-id="{{ $product->product_id }}">
+                                <div class="mt-2 bag_col add-to-cart" 
+                                     data-product-id="{{ $product->product_id }}"
+                                     data-add-url="{{ route('cart.add', ['locale' => app()->getLocale(), 'productId' => $product->product_id]) }}">
                                     <ion-icon name="bag-add-outline" class="py-1 px-2 me-2 bag-outline"></ion-icon>
                                     <ion-icon name="bag-check-outline" class="py-1 px-2 me-2 bag-filled"></ion-icon>
                                 </div>
@@ -118,8 +114,6 @@
     </section>
     <!-- end best sellers -->
 
-    <!-- Остальные блоки (статистика, бренды) пока закомментированы, оставляем как есть -->
-
 </body>
 @include('layouts.footer')
 
@@ -127,15 +121,16 @@
     document.querySelectorAll('.add-to-cart').forEach(button => {
         button.addEventListener('click', function(e) {
             let productId = this.dataset.productId;
-            if (!productId) return;
+            let addUrl = this.dataset.addUrl;
+            if (!productId || !addUrl) return;
 
-            fetch('{{ url("cart/add") }}/' + productId, {
+            fetch(addUrl, {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest',  // важный заголовок
-                    'Accept': 'application/json'          // чтобы сервер понимал, что нужен JSON
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'Accept': 'application/json'
                 },
                 body: JSON.stringify({ quantity: 1 })
             })
@@ -147,7 +142,7 @@
             })
             .then(data => {
                 if (data.success) {
-                    alert('Товар добавлен в корзину');
+                    alert('{{ __('messages.product_added') }}');
                     let cartCountElem = document.querySelector('.cart-count');
                     if (cartCountElem && data.cart_count !== undefined) {
                         cartCountElem.innerText = data.cart_count;
@@ -158,7 +153,7 @@
             })
             .catch(error => {
                 console.error('Ошибка:', error);
-                alert('Не удалось добавить товар');
+                alert('{{ __('messages.failed_to_add') }}');
             });
         });
     });

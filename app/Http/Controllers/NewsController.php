@@ -28,16 +28,11 @@ class NewsController extends Controller
     }
 
     // Детальная страница новости
-    public function show($slug)
+    public function show($locale, $slug) // было: public function show($slug)
     {
         $news = News::where('slug', $slug)
-                    ->where('is_active', true)
-                    ->firstOrFail();
-
-        // Для SEO можно добавить meta-теги
-        // $metaTitle = $news->title;
-        // $metaDescription = Str::limit(strip_tags($news->content), 160);
-
+            ->where('is_active', true)
+            ->firstOrFail();
         return view('news-detail', compact('news'));
     }
 }

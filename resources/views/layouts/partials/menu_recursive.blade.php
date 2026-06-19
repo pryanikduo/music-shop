@@ -3,7 +3,7 @@
         $hasChildren = $category->categories->count() > 0;
     @endphp
     <li class="{{ $hasChildren ? 'dropdown-submenu' : '' }}">
-        <a href="{{ route('catalog', ['category' => $category->category_id]) }}">
+        <a href="{{ route('catalog', ['locale' => app()->getLocale(), 'category' => $category->category_id]) }}">
             {{ $category->name }}
         </a>
         @if($hasChildren)

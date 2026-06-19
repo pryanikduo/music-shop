@@ -11,7 +11,7 @@
 
     <div class="container mt-5">
         <div class="row">
-            <!-- Галерея (слайдшоу) -->
+            <!-- Галерея -->
             <div class="col-md-6">
                 <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
@@ -44,24 +44,26 @@
                     <h2>{{ number_format($product->price, 0, ',', ' ') }} ₽</h2>
                 @endif
 
-                <p class="mt-3"><strong>В наличии:</strong> {{ $product->stock > 0 ? $product->stock . ' шт.' : 'Нет в наличии' }}</p>
+                <p class="mt-3"><strong>{{ __('messages.in_stock') }}:</strong> {{ $product->stock > 0 ? $product->stock . ' шт.' : __('messages.out_of_stock') }}</p>
 
                 <div class="mb-3">
-                    <label for="quantity" class="form-label">Количество</label>
+                    <label for="quantity" class="form-label">{{ __('messages.quantity') }}</label>
                     <input type="number" id="quantity" class="form-control" style="width: 100px;" value="1" min="1" max="{{ $product->stock }}">
                 </div>
 
-                <button id="add-to-cart-btn" class="btn" style="background-color: #fede67; color: #323232; padding: 10px 24px;" data-product-id="{{ $product->product_id }}">
-                    <ion-icon name="bag-add-outline"></ion-icon> Добавить в корзину
+                <button id="add-to-cart-btn" class="btn" style="background-color: #fede67; color: #323232; padding: 10px 24px;" 
+                        data-product-id="{{ $product->product_id }}"
+                        data-add-url="{{ route('cart.add', ['locale' => app()->getLocale(), 'productId' => $product->product_id]) }}">
+                    <ion-icon name="bag-add-outline"></ion-icon> {{ __('messages.add_to_cart') }}
                 </button>
 
                 <hr>
-                <h4>Описание</h4>
+                <h4>{{ __('messages.description') }}</h4>
                 <div>{!! $product->description !!}</div>
 
                 @if($product->promotions->count() > 0)
                     <hr>
-                    <h4>Акции на товар</h4>
+                    <h4>{{ __('messages.promotions_on_product') }}</h4>
                     <ul>
                         @foreach($product->promotions as $promo)
                             <li>{{ $promo->title }} @if($promo->discount_percent) (скидка {{ $promo->discount_percent }}%) @endif</li>
@@ -71,10 +73,10 @@
             </div>
         </div>
 
-        <!-- Блок похожих товаров (опционально) -->
+        <!-- Похожие товары -->
         @if($relatedProducts->count())
         <div class="row mt-5">
-            <h3>Похожие товары</h3>
+            <h3>{{ __('messages.related_products') }}</h3>
             @foreach($relatedProducts as $rel)
                 <div class="col-md-3 mb-4">
                     <div class="card h-100">
@@ -82,7 +84,7 @@
                         <div class="card-body">
                             <h5 class="card-title">{{ $rel->name }}</h5>
                             <p class="card-text">{{ number_format($rel->price, 0, ',', ' ') }} ₽</p>
-                            <a href="{{ route('product.show', $rel->slug) }}" class="btn btn-sm" style="background-color: #fede67;">Подробнее</a>
+                            <a href="{{ route('product.show', ['locale' => app()->getLocale(), 'slug' => $rel->slug]) }}" class="btn btn-sm" style="background-color: #fede67;">{{ __('messages.more_details') }}</a>
                         </div>
                     </div>
                 </div>
@@ -94,8 +96,11 @@
     <script>
         document.getElementById('add-to-cart-btn')?.addEventListener('click', function() {
             let productId = this.dataset.productId;
+            let addUrl = this.dataset.addUrl;
             let quantity = document.getElementById('quantity').value;
-            fetch('{{ url("cart/add") }}/' + productId, {
+            if (!productId || !addUrl) return;
+
+            fetch(addUrl, {
                 method: 'POST',
                 headers: {
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
@@ -108,16 +113,16 @@
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Товар добавлен в корзину');
+                    alert('{{ __('messages.product_added') }}');
                     let cartCountElem = document.querySelector('.cart-count');
                     if (cartCountElem) cartCountElem.innerText = data.cart_count;
                 } else {
-                    alert(data.error || 'Ошибка');
+                    alert(data.error || '{{ __('messages.failed_to_add') }}');
                 }
             })
             .catch(error => {
                 console.error(error);
-                alert('Не удалось добавить товар');
+                alert('{{ __('messages.failed_to_add') }}');
             });
         });
     </script>

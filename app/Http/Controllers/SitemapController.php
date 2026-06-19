@@ -15,11 +15,11 @@ class SitemapController extends Controller
     {
         // Статические страницы
         $staticPages = [
-            ['name' => 'Главная', 'url' => route('main')],
-            ['name' => 'Каталог', 'url' => route('catalog')],
-            ['name' => 'Новости и акции', 'url' => route('news')],
-            ['name' => 'О нас', 'url' => route('about')],
-            ['name' => 'Корзина', 'url' => route('cart.index')],
+            ['name' => 'Главная', 'url' => route('main', ['locale' => app()->getLocale()])],
+            ['name' => 'Каталог', 'url' => route('catalog', ['locale' => app()->getLocale()])],
+            ['name' => 'Новости и акции', 'url' => route('news', ['locale' => app()->getLocale()])],
+            ['name' => 'О нас', 'url' => route('about', ['locale' => app()->getLocale()])],
+            ['name' => 'Корзина', 'url' => route('cart.index', ['locale' => app()->getLocale()])],
         ];
 
         // Динамические страницы из таблицы pages (например, история, контакты и т.д.)

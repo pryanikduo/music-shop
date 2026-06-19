@@ -127,6 +127,7 @@ a {
     position: absolute;
     top: 100%;
     left: 50%;
+    transform: translateX(-50%);
     background-color: var(--light);
     min-width: 200px;
     box-shadow: 0 20px 35px rgba(0, 0, 0, 0.2);
@@ -151,7 +152,7 @@ a {
 .dropdown-submenu:hover > .dropdown-menu {
     display: block;
     top: 0;
-    left: 160%;
+    left: 141%;
     margin-top: -5px;
     margin-left: 5px;
     border-radius: 12px;
@@ -472,12 +473,54 @@ a {
 .carousel .carousel-indicators .active {
     background-color: var(--gold);
 }
+.carousel-indicators {
+    list-style: none;
+    padding-left: 0;
+}
+
 
 .carousel-control-next, .carousel-control-prev {
     width: auto;
     bottom: 16%;
     opacity: 1;
 }
+
+
+/* Для страницы конкретного товара */
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    /* Убираем стандартное фоновое изображение Bootstrap */
+    background-image: none !important;
+    
+    /* Задаём цвет из переменной (например, --dark) */
+    background-color: var(--dark);
+    
+    /* Устанавливаем маску в виде SVG-стрелки */
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z'/%3E%3C/svg%3E");
+    
+    mask-size: 100% 100%;
+    -webkit-mask-size: 100% 100%;
+    
+    /* Для удобства задайте размеры, если нужно */
+    width: 2rem;
+    height: 2rem;
+}
+
+/* Для следующей стрелки (вправо) используем другую SVG-маску */
+.carousel-control-next-icon {
+    mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+    -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+}
+
+.carousel-control-prev-icon:hover,
+.carousel-control-next-icon:hover {
+    background-color: var(--gold); /* или другой цвет */
+    transform: scale(1.05);
+    transition: var(--transition);
+}
+/**/
+
 
 .carousel-control-next {
     right: 11%;

@@ -1,6 +1,6 @@
 @include('layouts.head')
 
-@section('title', 'Новости и акции')
+@section('title', __('messages.news_title'))
 
 @include('layouts.menu')
 <body>
@@ -13,12 +13,12 @@
     <!-- Блок НОВОСТИ -->
     <section class="news">
         <div class="container py-5">
-            <h1>Последние новости</h1>
+            <h1>{{ __('messages.latest_news') }}</h1>
             <div class="row">
                 @forelse($news as $item)
                 <div class="col-10 col-lg-4 col-xl-3 my-4 m-0 m-auto">
                     <div class="card h-100">
-                        <a href="{{ route('news.show', $item->slug) }}" class="btn_sty">
+                        <a href="{{ route('news.show', ['locale' => app()->getLocale(), 'slug' => $item->slug]) }}" class="btn_sty">
                             <ion-icon name="arrow-forward-outline"></ion-icon>
                         </a>
                         <div class="news_date">
@@ -32,7 +32,7 @@
                     </div>
                 </div>
                 @empty
-                <div class="col-12 text-center">Пока нет новостей. Загляните позже!</div>
+                <div class="col-12 text-center">{{ __('messages.no_news') }}</div>
                 @endforelse
             </div>
         </div>
@@ -41,7 +41,7 @@
     <!-- Блок АКЦИИ -->
     <section class="promotions" style="background-color: var(--gray-bg);">
         <div class="container py-5">
-            <h1>Акции и скидки</h1>
+            <h1>{{ __('messages.promotions_and_discounts') }}</h1>
             <div class="row">
                 @forelse($promotions as $promo)
                 <div class="col-10 col-lg-4 col-xl-3 my-4 m-0 m-auto">
@@ -60,7 +60,7 @@
                     </div>
                 </div>
                 @empty
-                <div class="col-12 text-center">На данный момент активных акций нет. Следите за обновлениями!</div>
+                <div class="col-12 text-center">{{ __('messages.no_promotions') }}</div>
                 @endforelse
             </div>
         </div>
@@ -71,13 +71,13 @@
         <div class="container pb-5">
             <div class="row">
                 <h4 class="text-center">
-                    Оставайся с нами на связи и получи скидку в 15%<br>на свой первый заказ!
+                    {{ __('messages.subscribe_text') }}
                 </h4>
                 <div class="col-12 col-lg-6 m-0 m-auto mt-4">
                     <form action="#" method="POST" class="text-center">
                         @csrf
-                        <input type="email" name="subscribe_email" placeholder="example@gmail.com" required>
-                        <button type="submit">Отправить</button>
+                        <input type="email" name="subscribe_email" placeholder="{{ __('messages.subscribe_placeholder') }}" required>
+                        <button type="submit">{{ __('messages.subscribe_button') }}</button>
                     </form>
                 </div>
             </div>

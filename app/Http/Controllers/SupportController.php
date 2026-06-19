@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Auth;
 
 class SupportController extends Controller
 {
-    public function store(Request $request)
+    public function store($locale, Request $request)
     {
         $validated = $request->validate([
             'subject' => 'required|string|max:255',

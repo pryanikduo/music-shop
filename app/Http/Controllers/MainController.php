@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
 
 class MainController extends Controller
 {
-    public function main()
+    public function main($locale)
     {
         $today = now()->toDateString();
         $sliderPromotions = Promotion::where('is_active', true)
