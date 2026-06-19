@@ -19,11 +19,11 @@ class NewsController extends Controller
         // Активные акции (текущая дата в периоде)
         $today = now()->toDateString();
         $promotions = Promotion::where('is_active', true)
-                               ->where('start_date', '<=', $today)
-                               ->where('end_date', '>=', $today)
-                               ->orderBy('start_date', 'desc')
-                               ->get();
-
+                                ->whereDate('start_date', '<=', $today)
+                                ->whereDate('end_date', '>=', $today)
+                                ->orderBy('created_at', 'desc')
+                                ->get();
+       
         return view('news', compact('news', 'promotions'));
     }
 
