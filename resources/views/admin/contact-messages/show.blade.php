@@ -7,7 +7,7 @@
         <p><strong>Имя:</strong> {{ $contactMessage->name }}</p>
         <p><strong>Email:</strong> {{ $contactMessage->email }}</p>
         <p><strong>Телефон:</strong> {{ $contactMessage->phone ?: '—' }}</p>
-        <p><strong>Дата:</strong> {{ $contactMessage->created_at->format('d.m.Y H:i') }}</p>
+        <p><strong>Дата:</strong> {{ $contactMessage->created_at->format('d.m.Y') }}</p>
         <hr>
         <p><strong>Сообщение:</strong></p>
         <p>{{ nl2br(e($contactMessage->message)) }}</p>

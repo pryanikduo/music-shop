@@ -29,7 +29,9 @@ class ContactMessage extends Model
 	public $timestamps = false;
 
 	protected $casts = [
-		'is_read' => 'bool'
+		'is_read' => 'bool',
+		'created_at' => 'datetime',
+		'updated_at' => 'datetime',
 	];
 
 	protected $fillable = [
