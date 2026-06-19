@@ -43,5 +43,9 @@ class AppServiceProvider extends ServiceProvider
                 'socialYoutube' => Setting::getValue('social_youtube'),
             ]);
         });
+        View::composer('*', function ($view) {
+            $cartService = app(CartService::class);
+            $view->with('cartCount', $cartService->getCartCount());
+        });
     }
 }

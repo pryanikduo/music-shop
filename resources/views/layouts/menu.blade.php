@@ -18,11 +18,9 @@
         <a href="{{ route('about', ['locale' => app()->getLocale()]) }}" class="navigate-item"><span class="navigate-text">{{ __('messages.about') }}</span></a>
         <a href="{{ route('cart.index', ['locale' => app()->getLocale()]) }}" class="cart" style="position: relative;">
             <img src="{{ asset('img/bascet.svg') }}">
-            @if(isset($cartCount) && $cartCount > 0)
-                <span class="cart-count" style="position: absolute; top: -8px; right: -12px; background-color: #e53e3e; color: white; font-size: 12px; font-weight: bold; padding: 2px 6px; border-radius: 50%; min-width: 18px; text-align: center;">
-                    {{ $cartCount }}
-                </span>
-            @endif
+            <span id="cart-count" class="cart-count" style="position: absolute; top: -8px; right: -12px; background-color: #e53e3e; color: white; font-size: 12px; font-weight: bold; padding: 2px 6px; border-radius: 50%; min-width: 18px; text-align: center; {{ $cartCount > 0 ? '' : 'display: none;' }}">
+                {{ $cartCount }}
+            </span>
         </a>
 
         <!-- Блок авторизации -->

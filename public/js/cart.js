@@ -1,9 +1,17 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // Элементы, которые будут обновляться
     const cartContent = document.getElementById('cart-content');
     const cartTotalSpan = document.getElementById('cart-total');
-    // Если у вас есть счётчик товаров в шапке, например, #cart-count, обновляйте его
-    // const cartCountElement = document.getElementById('cart-count');
+    const cartCountElement = document.getElementById('cart-count');
+
+    // Инициализация: показываем счётчик, если есть товары
+    if (cartCountElement) {
+        const initialCount = parseInt(cartCountElement.textContent, 10);
+        if (initialCount > 0) {
+            cartCountElement.style.display = '';
+        } else {
+            cartCountElement.style.display = 'none';
+        }
+    } // теперь активен
 
     // Функция для отправки AJAX-запроса
     function sendAjax(url, method, data, onSuccess, onError) {
@@ -30,21 +38,30 @@ document.addEventListener('DOMContentLoaded', function () {
         .catch(error => {
             console.error('Ошибка:', error);
             if (onError) onError(error);
-            // Показать сообщение пользователю (например, всплывающее уведомление)
             alert('Произошла ошибка. Попробуйте ещё раз.');
         });
+    }
+
+    // Функция обновления счётчика в шапке
+    function updateCartCount(count) {
+        if (cartCountElement) {
+            cartCountElement.textContent = count;
+            if (count > 0) {
+                cartCountElement.style.display = '';
+            } else {
+                cartCountElement.style.display = 'none';
+            }
+        }
     }
 
     // --- Обработчик изменения количества ---
     const quantityInputs = document.querySelectorAll('.cart-quantity-input');
     quantityInputs.forEach(input => {
-        // Отправляем запрос при изменении значения (после потери фокуса или Enter)
         input.addEventListener('change', function () {
             const productId = this.dataset.productId;
             const updateUrl = this.dataset.updateUrl;
             const newQuantity = parseInt(this.value, 10);
 
-            // Валидация
             const max = parseInt(this.max, 10);
             if (isNaN(newQuantity) || newQuantity < 1) {
                 this.value = 1;
@@ -54,12 +71,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 this.value = max;
             }
 
-            // Блокируем поле на время запроса (опционально)
             this.disabled = true;
 
             sendAjax(
                 updateUrl,
-                'PATCH', // или 'PATCH' – смотрите в вашем роуте
+                'PATCH',
                 { quantity: this.value },
                 function (data) {
                     // Обновляем сумму конкретного товара
@@ -67,24 +83,20 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (itemTotalElement) {
                         itemTotalElement.textContent = data.item_total + ' руб.';
                     }
-                    // Обновляем общую сумму
+                    // Обновляем общую сумму корзины
                     if (cartTotalSpan) {
                         cartTotalSpan.textContent = data.total;
                     }
-                    // Обновляем счётчик в шапке (если есть)
-                    // if (cartCountElement) cartCountElement.textContent = data.cart_count;
-                    // Снимаем блокировку поля
+                    // Обновляем счётчик в шапке
+                    updateCartCount(data.cart_count);
+                    // Разблокируем поле
                     document.querySelector(`.cart-quantity-input[data-product-id="${productId}"]`).disabled = false;
                 },
                 function () {
-                    // Восстанавливаем предыдущее значение при ошибке (можно перезагрузить страницу или вернуть старое)
-                    // Например, вернуть значение из data.quantity, если оно было в ответе ошибки
                     document.querySelector(`.cart-quantity-input[data-product-id="${productId}"]`).disabled = false;
                 }
             );
         });
-
-        // Дополнительно: можно обрабатывать input с debounce, но change достаточно.
     });
 
     // --- Обработчик удаления товара ---
@@ -98,14 +110,13 @@ document.addEventListener('DOMContentLoaded', function () {
                 return;
             }
 
-            // Блокируем кнопку (визуально)
             this.disabled = true;
             this.textContent = 'Удаление...';
 
             sendAjax(
                 removeUrl,
-                'DELETE', // или 'POST' – смотрите роуты
-                {}, // тело пустое
+                'DELETE',
+                {},
                 function (data) {
                     // Удаляем элемент товара из DOM
                     const cartItem = document.getElementById('cart-item-' + productId);
@@ -117,10 +128,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     if (cartTotalSpan) {
                         cartTotalSpan.textContent = data.total;
                     }
-                    // Обновляем счётчик в шапке
-                    // if (cartCountElement) cartCountElement.textContent = data.cart_count;
+                    // Обновляем счётчик
+                    updateCartCount(data.cart_count);
 
-                    // Если корзина пуста, подменяем содержимое на сообщение
+                    // Если корзина пуста, показываем сообщение
                     if (data.cart_empty) {
                         const catalogUrl = document.getElementById('cart-content').dataset.catalogUrl;
                         const emptyHtml = `
@@ -134,7 +145,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 },
                 function () {
-                    // Восстанавливаем кнопку при ошибке
                     const btn = document.querySelector(`.remove-all-btn[data-product-id="${productId}"]`);
                     if (btn) {
                         btn.disabled = false;
